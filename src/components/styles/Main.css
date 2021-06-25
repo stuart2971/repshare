@@ -1,0 +1,251 @@
+html {
+    font-family: "Lora", serif;
+}
+
+body,
+h1,
+h2,
+h3,
+p {
+    margin: 0; /* interferes with 100vw */
+}
+body {
+    width: 100vw;
+}
+div,
+section {
+    /* Keep this or else padding will make divs bigger */
+    box-sizing: border-box;
+    text-align: left;
+}
+.main_section {
+    width: 100vw;
+    min-height: 100vh;
+    padding: 3.938rem 7.188rem 3.938rem 7.188rem;
+}
+.main_section .container {
+    width: 100%;
+    height: auto;
+    display: flex;
+}
+
+input {
+    border-color: rgba(0, 0, 0, 0.1);
+    height: 32px;
+    border-radius: 10px;
+    padding: 5px;
+    padding-left: 10px;
+    font-family: "Roboto", sans-serif;
+}
+.theme_button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: "Roboto", sans-serif;
+}
+.space_between {
+    display: flex;
+    justify-content: space-between;
+}
+.inline_block {
+    display: inline-block;
+}
+.faded50 {
+    opacity: 0.5;
+}
+/* Tabs */
+.tabs_container {
+    /* background-color: blue; */
+    flex-grow: 0.3;
+}
+.logo {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+.credentials_button {
+    margin-bottom: 1em;
+}
+.tab {
+    font-size: 1.3rem;
+    cursor: pointer;
+    margin-bottom: 2rem;
+}
+.tab:hover {
+    color: grey;
+}
+/* Listings */
+
+.items_container {
+    flex-grow: 1;
+    padding-right: 50px;
+    position: relative;
+}
+.link_icon {
+    width: 30px;
+    cursor: pointer;
+    margin-left: 20px;
+}
+.items_container .tab_selected {
+    font-size: 2em;
+    margin-bottom: 1em;
+}
+.add_listing_container {
+    border-bottom: 1px rgba(0, 0, 0, 0.1) solid;
+    margin-bottom: 10px;
+}
+.add_listing_container .row {
+    display: flex;
+    margin-bottom: 10px;
+}
+.url_input {
+    flex-grow: 2;
+    margin-right: 10px;
+}
+
+.item_name_input {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+.rating_input {
+    flex-grow: 0.1;
+}
+.tag {
+    padding: 4px 6px 4px 6px;
+    border-radius: 15px;
+    border: 1px black solid;
+    font-size: 0.8rem;
+    font-family: "Roboto", sans-serif;
+}
+.add_listing_container .tag {
+    margin-right: 10px;
+    cursor: pointer;
+}
+.add_listing_container .tag_selected {
+    background: black;
+    color: white;
+    opacity: 1;
+}
+
+.filter_container {
+    margin-bottom: 10px;
+    display: flex;
+}
+.filter_dropdown {
+    margin-left: 10px;
+    padding: 10px;
+}
+
+.listings_container .space_between {
+    margin-bottom: 5px;
+}
+.listing {
+    border-bottom: 1px rgba(0, 0, 0, 0.1) solid;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    cursor: pointer;
+}
+.listing_text {
+    font-family: "Roboto", sans-serif;
+}
+.rating {
+    background-color: #f99526;
+    opacity: 1;
+    border: 0;
+    padding: 5px 10px 5px 10px;
+    color: white;
+}
+
+/* Preview  */
+
+.preview_container {
+    flex-grow: 1.5;
+    max-width: min-content;
+}
+.logout_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+}
+.preview {
+    border: 1px rgba(0, 0, 0, 0.1) solid;
+    border-radius: 10px;
+    min-height: 66vh;
+    position: sticky;
+    top: 10%;
+}
+
+.preview_image {
+    width: auto;
+    max-height: 46vh;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.preview_data {
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    min-height: 19.8vh;
+}
+.preview_title {
+    font-size: 1.4rem;
+}
+.preview_price {
+    font-size: 1.2em;
+}
+.see_item {
+    color: black;
+}
+.preview .tag {
+    margin-left: 10px;
+}
+/* Different sizes */
+@media only screen and (max-width: 1200px) {
+    .preview {
+        display: none;
+    }
+    .preview_container .theme_button {
+        width: 80px;
+    }
+}
+@media only screen and (max-width: 992px) {
+    ::-webkit-scrollbar {
+        display: none;
+    }
+    .main_section {
+        padding: 30px;
+        width: 100vw;
+    }
+    .items_container {
+        padding: 0px;
+    }
+    .main_section .container {
+        flex-direction: column;
+    }
+    .logo {
+        margin-bottom: 10px;
+    }
+    .tabs {
+        display: flex;
+        flex-direction: row;
+        margin: 20px 0px 0px 0px;
+        overflow: scroll;
+        height: 50px;
+    }
+    .tab {
+        font-size: 1em;
+        margin-right: 20px;
+        width: auto;
+        white-space: nowrap;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .main_section {
+        padding: 10px;
+    }
+}

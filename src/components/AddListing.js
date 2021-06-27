@@ -7,13 +7,13 @@ import RepShare from "./RepShare.json";
 export default function AddListing() {
     const [selectedTag, setSelectedTag] = useState("");
     function renderTags() {
-        console.log(RepShare);
-        return RepShare.tags.map((tag) => {
+        return RepShare.tags.map((tag, i) => {
             return (
                 <Tag
                     name={tag}
                     selectedTag={selectedTag}
                     setSelectedTag={setSelectedTag}
+                    key={i}
                 />
             );
         });
@@ -42,7 +42,7 @@ export default function AddListing() {
             </div>
             <div className="row">
                 {renderTags()}
-                <span class="faded50" onClick={() => setSelectedTag("")}>
+                <span className="faded50" onClick={() => setSelectedTag("")}>
                     Clear
                 </span>
             </div>

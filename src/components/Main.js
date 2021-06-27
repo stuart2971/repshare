@@ -1,55 +1,38 @@
-import { useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
-import Tab from "./MiniComponents/Tab";
 import Listing from "./Listing";
 import Preview from "./Preview";
 import AddListing from "./AddListing";
+import CredentialButton from "./MiniComponents/CredentialButton";
+import Tabs from "./Tabs";
 
 import "./styles/Main.css";
-
 import linkIcon from "../icons/link.png";
-import linkIcon_copied from "../icons/link_copied.png";
+// import linkIcon_copied from "../icons/link_copied.png";
+
+import { getUser } from "../utils/requests";
 
 export default function Main() {
-    const [copied, setCopied] = useState(false);
-    const [activeTab, setActiveTab] = useState("");
+    const { isAuthenticated, user } = useAuth0();
+
+    //Makes sure there is an account in mongo, if not it makes one.
+    if (isAuthenticated) getUser(user.sub);
+
     return (
         <section className="main_section">
             <div className="container">
                 <div className="tabs_container">
                     <h1 className="logo">RepShare</h1>
-                    <div className="tabs">
-                        <Tab name="+ Create Listing" setCopied={setCopied} />
-                        <Tab
-                            name="Summer 2021"
-                            activeTab={activeTab}
-                            setCopied={setCopied}
-                            setActiveTab={setActiveTab}
-                        />
-                        <Tab
-                            name="Winter 2020"
-                            activeTab={activeTab}
-                            setCopied={setCopied}
-                            setActiveTab={setActiveTab}
-                        />
-                        <Tab
-                            name="Summer 2019"
-                            activeTab={activeTab}
-                            setCopied={setCopied}
-                            setActiveTab={setActiveTab}
-                        />
-                    </div>
-                    <button className="theme_button credentials_button">
-                        Log out
-                    </button>
+                    <Tabs />
+                    <CredentialButton />
                 </div>
                 <div className="items_container">
                     <h3 className="tab_selected inline_block">Summer 2021</h3>
-                    <div class="inline_block">
+                    <div className="inline_block">
                         <img
-                            onClick={() => setCopied(true)}
-                            class="link_icon"
-                            src={copied ? linkIcon_copied : linkIcon}
+                            className="link_icon"
+                            src={linkIcon}
+                            alt="preview listing"
                         />
                     </div>
                     <AddListing />

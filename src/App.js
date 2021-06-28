@@ -1,12 +1,16 @@
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+
 import "./App.css";
 
 import Main from "./components/Main";
 
 function App() {
     return (
-        <div className="App">
-            <Main />
-        </div>
+        <BrowserRouter>
+            <Switch>
+                <Route path="/" component={Main} />
+            </Switch>
+        </BrowserRouter>
     );
 }
 

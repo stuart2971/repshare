@@ -58,9 +58,11 @@ input:focus {
 .faded50 {
     opacity: 0.5;
 }
+.relative {
+    position: relative;
+}
 /* Tabs */
 .tabs_container {
-    /* background-color: blue; */
     flex-grow: 0.3;
 }
 
@@ -68,24 +70,39 @@ input:focus {
     font-size: 2.5rem;
     margin-bottom: 2rem;
 }
-.tabs {
-    width: 100%;
+.tab {
+    margin-bottom: 1rem;
+    padding: 0px;
+    height: auto;
+}
+.tab_delete_icon {
+    width: 20px;
+    position: absolute;
+    right: 10%;
+    cursor: pointer;
 }
 .tab_input {
     border: 0px;
     font-size: 1.3rem;
     margin-bottom: 2rem;
     max-width: 100%;
+    height: 20px;
+}
+
+.delete_tab {
+    position: absolute;
+    right: 10%;
+}
+.tab_text {
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+.tab_active {
+    text-decoration: underline;
 }
 .credentials_button {
     margin-bottom: 1em;
 }
-.tab {
-    font-size: 1.3rem;
-    cursor: pointer;
-    margin-bottom: 2rem;
-}
-
 /* Listings */
 
 .items_container {
@@ -114,7 +131,9 @@ input:focus {
     flex-grow: 2;
     margin-right: 10px;
 }
-
+.image_input {
+    width: 100%;
+}
 .item_name_input {
     flex-grow: 1;
     margin-right: 10px;
@@ -242,15 +261,23 @@ input:focus {
     .tabs {
         display: flex;
         flex-direction: row;
-        margin: 20px 0px 0px 0px;
         overflow: scroll;
-        height: 50px;
     }
     .tab {
+        margin: 0px 15px 0px 15px;
+        padding: 10px;
+    }
+    .tab_text {
         font-size: 1em;
-        margin-right: 20px;
         width: auto;
         white-space: nowrap;
+    }
+    .tab_active {
+        text-decoration: none;
+        background-color: rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        width: 100%;
+        text-align: center;
     }
 }
 

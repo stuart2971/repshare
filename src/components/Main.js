@@ -1,4 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect, useState } from "react";
 
 import Listing from "./Listing";
 import Preview from "./Preview";
@@ -10,24 +11,38 @@ import "./styles/Main.css";
 import linkIcon from "../icons/link.png";
 // import linkIcon_copied from "../icons/link_copied.png";
 
-import { getUser } from "../utils/requests";
+import { getUser, getListings } from "../utils/requests";
 
 export default function Main() {
     const { isAuthenticated, user } = useAuth0();
+    const [selectedHaul, setSelectedHaul] = useState({});
 
-    //Makes sure there is an account in mongo, if not it makes one.
-    if (isAuthenticated) getUser(user.sub);
+    const [listings, setListings] = useState([]);
+
+    useEffect(async () => {
+        //Makes sure there is an account in mongo, if not it makes one.
+        if (isAuthenticated) getUser(user.sub);
+        else return;
+    }, [isAuthenticated]);
+
+    useEffect(async () => {
+        if (!isAuthenticated) return;
+        const data = await getListings(user.sub, selectedHaul.haulID);
+        setListings(data.hauls[0].listings);
+    }, [selectedHaul]);
 
     return (
         <section className="main_section">
             <div className="container">
                 <div className="tabs_container">
                     <h1 className="logo">RepShare</h1>
-                    <Tabs />
+                    <Tabs setSelectedHaul={setSelectedHaul} />
                     <CredentialButton />
                 </div>
                 <div className="items_container">
-                    <h3 className="tab_selected inline_block">Summer 2021</h3>
+                    <h3 className="tab_selected inline_block">
+                        {selectedHaul.haulName}
+                    </h3>
                     <div className="inline_block">
                         <img
                             className="link_icon"
@@ -35,7 +50,7 @@ export default function Main() {
                             alt="preview listing"
                         />
                     </div>
-                    <AddListing />
+                    <AddListing haulID={selectedHaul.haulID} />
                     <div className="filter_container space_between">
                         <p className="filter_text">Filter</p>
                         <div>
@@ -63,12 +78,16 @@ export default function Main() {
                         </div>
                     </div>
                     <div className="listings_container">
-                        <Listing
-                            itemName="Vlone Shorts"
-                            tag="Shorts"
-                            price="14.95"
-                            rating="46"
-                        />
+                        {listings.map((listing) => {
+                            return (
+                                <Listing
+                                    itemName={listing.itemName}
+                                    tag={listing.tag}
+                                    price={listing.price}
+                                    rating={listing.rating}
+                                />
+                            );
+                        })}
                     </div>
                 </div>
                 <div className="preview_container">

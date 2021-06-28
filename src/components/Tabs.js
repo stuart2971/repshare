@@ -1,10 +1,11 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
+
 import { getHaulNames, addHaul } from "../utils/requests";
 
 import Tab from "./MiniComponents/Tab";
 
-export default function Tabs() {
+export default function Tabs({ setSelectedHaul }) {
     const { isAuthenticated, user } = useAuth0();
 
     const [activeTab, setActiveTab] = useState("");
@@ -14,18 +15,29 @@ export default function Tabs() {
     useEffect(async () => {
         if (!isAuthenticated) return;
         const data = await getHaulNames(user.sub);
+        if (!data) return;
+        const recentHaul = data.hauls[data.hauls.length - 1];
         setHauls(data.hauls);
         if (data.hauls.length > 0)
-            setActiveTab(data.hauls[data.hauls.length - 1]._id);
+            changeTab(recentHaul._id, recentHaul.haulName);
         // useEffect only renders on mount and NOT when component rerenders.  (Only watches isAuthenticated for changes)
     }, [isAuthenticated]);
 
     async function createHaul(haulName) {
-        if (!isAuthenticated) return;
         setInputVisible(false);
+        if (!haulName) return;
+        if (!isAuthenticated) return;
         const data = await addHaul(user.sub, haulName);
+        const recentHaul = data.hauls[data.hauls.length - 1];
         setHauls(data.hauls);
-        setActiveTab(data.hauls[data.hauls.length - 1]._id);
+        changeTab(recentHaul._id);
+    }
+    function changeTab(tabID, haulName = "") {
+        setActiveTab(tabID);
+        setSelectedHaul({ haulID: tabID, haulName });
+    }
+    function removeHaulFromArray(haulID) {
+        setHauls(hauls.filter((haul) => haul._id !== haulID));
     }
     return (
         <div className="tabs">
@@ -37,9 +49,14 @@ export default function Tabs() {
                     onBlur={(e) => createHaul(e.target.value)}
                 />
             ) : (
-                <p onClick={() => setInputVisible(true)} className="tab">
-                    + Create list
-                </p>
+                <div className="tab">
+                    <p
+                        onClick={() => setInputVisible(true)}
+                        className="tab_text"
+                    >
+                        + Create list
+                    </p>
+                </div>
             )}
 
             {hauls.length > 0 ? (
@@ -50,9 +67,11 @@ export default function Tabs() {
                         return (
                             <Tab
                                 name={haul.haulName}
+                                auth0ID={user.sub}
                                 id={haul._id}
                                 activeTab={activeTab}
-                                setActiveTab={setActiveTab}
+                                changeTab={changeTab}
+                                removeHaulFromArray={removeHaulFromArray}
                                 key={i}
                             />
                         );

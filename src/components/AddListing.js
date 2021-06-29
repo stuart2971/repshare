@@ -6,9 +6,7 @@ import { createListing } from "../utils/requests";
 
 import RepShare from "./RepShare.json";
 
-export default function AddListing({ haulID }) {
-    const { user } = useAuth0();
-
+export default function AddListing({ id, addToListings }) {
     const [itemLink, setItemLink] = useState("");
     const [name, setName] = useState("");
     const [rating, setRating] = useState("");
@@ -37,7 +35,8 @@ export default function AddListing({ haulID }) {
             tag: selectedTag,
         };
 
-        const listings = await createListing(user.sub, haulID, listing);
+        const newListing = await createListing(id, listing);
+        addToListings(newListing);
     }
     return (
         <div className="add_listing_container">

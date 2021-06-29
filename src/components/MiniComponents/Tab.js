@@ -3,18 +3,17 @@ import { deleteHaul } from "../../utils/requests";
 import deleteIcon from "../../icons/delete.png";
 
 export default function Tab({
-    name,
+    haul,
     activeTab,
     changeTab,
-    id,
     auth0ID,
     removeHaulFromArray,
 }) {
-    const isActive = activeTab === id;
+    const isActive = activeTab === haul._id;
 
     async function removeHaul() {
-        const deleteStatus = await deleteHaul(auth0ID, id);
-        removeHaulFromArray(id);
+        const deleteStatus = deleteHaul(auth0ID, haul._id);
+        removeHaulFromArray(haul._id);
     }
 
     return (
@@ -31,10 +30,10 @@ export default function Tab({
             <p
                 className="tab_text"
                 onClick={() => {
-                    if (changeTab) changeTab(id, name);
+                    if (changeTab) changeTab(haul);
                 }}
             >
-                {name}
+                {haul.name}
             </p>
         </div>
     );

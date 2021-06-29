@@ -15,29 +15,27 @@ export default function Tabs({ setSelectedHaul }) {
     useEffect(async () => {
         if (!isAuthenticated) return;
         const data = await getHaulNames(user.sub);
+
         if (!data) return;
         const recentHaul = data.hauls[data.hauls.length - 1];
         setHauls(data.hauls);
-        if (data.hauls.length > 0)
-            changeTab(recentHaul._id, recentHaul.haulName);
+        if (data.hauls.length > 0) changeTab(recentHaul);
         // useEffect only renders on mount and NOT when component rerenders.  (Only watches isAuthenticated for changes)
     }, [isAuthenticated]);
 
     async function createHaul(haulName) {
         setInputVisible(false);
-        if (!haulName) return;
-        if (!isAuthenticated) return;
+        if (!haulName || !isAuthenticated) return;
         const data = await addHaul(user.sub, haulName);
-        const recentHaul = data.hauls[data.hauls.length - 1];
-        setHauls(data.hauls);
-        changeTab(recentHaul._id);
+        setHauls([...hauls, data]);
+        changeTab(data);
     }
-    function changeTab(tabID, haulName = "") {
-        setActiveTab(tabID);
-        setSelectedHaul({ haulID: tabID, haulName });
+    function changeTab(haul) {
+        setActiveTab(haul._id);
+        setSelectedHaul(haul);
     }
-    function removeHaulFromArray(haulID) {
-        setHauls(hauls.filter((haul) => haul._id !== haulID));
+    function removeHaulFromArray(id) {
+        setHauls(hauls.filter((haul) => haul._id !== id));
     }
     return (
         <div className="tabs">
@@ -66,9 +64,8 @@ export default function Tabs({ setSelectedHaul }) {
                     .map((haul, i) => {
                         return (
                             <Tab
-                                name={haul.haulName}
+                                haul={haul}
                                 auth0ID={user.sub}
-                                id={haul._id}
                                 activeTab={activeTab}
                                 changeTab={changeTab}
                                 removeHaulFromArray={removeHaulFromArray}

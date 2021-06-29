@@ -13,6 +13,7 @@ import linkIcon from "../icons/link.png";
 
 import { getUser, getListings } from "../utils/requests";
 
+// https://dev.to/andyrewlee/cheat-sheet-for-updating-objects-and-arrays-in-react-state-48np
 export default function Main() {
     const { isAuthenticated, user } = useAuth0();
     const [selectedHaul, setSelectedHaul] = useState({});
@@ -27,10 +28,13 @@ export default function Main() {
 
     useEffect(async () => {
         if (!isAuthenticated) return;
-        const data = await getListings(user.sub, selectedHaul.haulID);
-        setListings(data.hauls[0].listings);
+        const data = await getListings(selectedHaul._id);
+        setListings(data.listings);
     }, [selectedHaul]);
 
+    function addToListings(l) {
+        setListings([...listings, l]);
+    }
     return (
         <section className="main_section">
             <div className="container">
@@ -41,7 +45,7 @@ export default function Main() {
                 </div>
                 <div className="items_container">
                     <h3 className="tab_selected inline_block">
-                        {selectedHaul.haulName}
+                        {selectedHaul.name}
                     </h3>
                     <div className="inline_block">
                         <img
@@ -50,7 +54,10 @@ export default function Main() {
                             alt="preview listing"
                         />
                     </div>
-                    <AddListing haulID={selectedHaul.haulID} />
+                    <AddListing
+                        addToListings={addToListings}
+                        id={selectedHaul._id}
+                    />
                     <div className="filter_container space_between">
                         <p className="filter_text">Filter</p>
                         <div>
@@ -78,13 +85,16 @@ export default function Main() {
                         </div>
                     </div>
                     <div className="listings_container">
-                        {listings.map((listing) => {
+                        {listings.map((listing, i) => {
+                            console.log(listing);
                             return (
                                 <Listing
                                     itemName={listing.itemName}
                                     tag={listing.tag}
                                     price={listing.price}
                                     rating={listing.rating}
+                                    id={listing._id}
+                                    key={i}
                                 />
                             );
                         })}

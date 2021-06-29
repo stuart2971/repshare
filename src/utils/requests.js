@@ -22,9 +22,9 @@ export async function deleteHaul(auth0ID, haulID) {
     );
     return response.json();
 }
-export async function createListing(auth0ID, haulID, data) {
+export async function createListing(haulID, data) {
     let response = await fetch(
-        `http://localhost:3001/haul/createListing/${auth0ID}/${haulID}`,
+        `http://localhost:3001/haul/createListing/${haulID}`,
         {
             method: "POST",
             mode: "cors",
@@ -39,9 +39,9 @@ export async function createListing(auth0ID, haulID, data) {
     return response.json();
 }
 
-export async function getListings(auth0ID, haulID) {
+export async function getListings(haulID) {
     let response = await fetch(
-        `http://localhost:3001/haul/getListings/${auth0ID}/${haulID}`
+        `http://localhost:3001/haul/getListings/${haulID}`
     );
     return response.json();
 }

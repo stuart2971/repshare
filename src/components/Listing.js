@@ -8,7 +8,8 @@ export default function Listing({ itemName, tag, price, rating }) {
                 <p className="listing_text">{price}</p>
             </div>
             <div className="space_between">
-                <Tag name="Shorts" />
+                {tag ? <Tag name={tag} /> : <div></div>}
+
                 <div className="tag rating">
                     <p className="tag_text">%{rating}</p>
                 </div>

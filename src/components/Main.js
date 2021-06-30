@@ -1,11 +1,11 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 
-import Listing from "./Listing";
 import Preview from "./Preview";
 import AddListing from "./AddListing";
 import CredentialButton from "./MiniComponents/CredentialButton";
 import Tabs from "./Tabs";
+import Listing from "./MiniComponents/Listing";
 
 import "./styles/Main.css";
 import linkIcon from "../icons/link.png";
@@ -16,9 +16,9 @@ import { getUser, getListings } from "../utils/requests";
 // https://dev.to/andyrewlee/cheat-sheet-for-updating-objects-and-arrays-in-react-state-48np
 export default function Main() {
     const { isAuthenticated, user } = useAuth0();
+    const [savedListings, setSavedListings] = useState({});
     const [selectedHaul, setSelectedHaul] = useState({});
-
-    const [listings, setListings] = useState([]);
+    const [selectedListing, setSelectedListing] = useState({});
 
     useEffect(async () => {
         //Makes sure there is an account in mongo, if not it makes one.
@@ -28,13 +28,26 @@ export default function Main() {
 
     useEffect(async () => {
         if (!isAuthenticated) return;
-        const data = await getListings(selectedHaul._id);
-        setListings(data.listings);
+        // If listings has not been fetched before, fetches it and saves it to savedListings
+        if (!savedListings[selectedHaul._id]) {
+            const data = await getListings(selectedHaul._id);
+            setSavedListings({
+                ...savedListings,
+                [selectedHaul._id]: data.listings,
+            });
+        }
     }, [selectedHaul]);
 
     function addToListings(l) {
-        setListings([...listings, l]);
+        let oldSavedListings = savedListings[selectedHaul._id];
+        oldSavedListings.push(l);
+        setSavedListings({
+            ...savedListings,
+            [selectedHaul._id]: oldSavedListings,
+        });
     }
+    console.log("rendered");
+    let listings = savedListings[selectedHaul._id];
     return (
         <section className="main_section">
             <div className="container">
@@ -85,24 +98,32 @@ export default function Main() {
                         </div>
                     </div>
                     <div className="listings_container">
-                        {listings.map((listing, i) => {
-                            console.log(listing);
-                            return (
-                                <Listing
-                                    itemName={listing.itemName}
-                                    tag={listing.tag}
-                                    price={listing.price}
-                                    rating={listing.rating}
-                                    id={listing._id}
-                                    key={i}
-                                />
-                            );
-                        })}
+                        {listings ? (
+                            listings
+                                .slice(0)
+                                .reverse()
+                                .map((listing, i) => {
+                                    return (
+                                        <Listing
+                                            listing={listing}
+                                            tag={listing.tag}
+                                            price={listing.price}
+                                            rating={listing.rating}
+                                            setSelectedListing={
+                                                setSelectedListing
+                                            }
+                                            key={i}
+                                        />
+                                    );
+                                })
+                        ) : (
+                            <></>
+                        )}
                     </div>
                 </div>
                 <div className="preview_container">
                     <div className="logout_container" />
-                    <Preview />
+                    <Preview selectedListing={selectedListing} />
                 </div>
             </div>
         </section>

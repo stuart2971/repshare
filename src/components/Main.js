@@ -31,10 +31,11 @@ export default function Main() {
         // If listings has not been fetched before, fetches it and saves it to savedListings
         if (!savedListings[selectedHaul._id]) {
             const data = await getListings(selectedHaul._id);
-            setSavedListings({
-                ...savedListings,
-                [selectedHaul._id]: data.listings,
-            });
+            if (data)
+                setSavedListings({
+                    ...savedListings,
+                    [selectedHaul._id]: data.listings,
+                });
         }
     }, [selectedHaul]);
 

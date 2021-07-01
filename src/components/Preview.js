@@ -3,13 +3,14 @@ import Tag from "./MiniComponents/Tag";
 import seePageIcon from "../icons/see_page.png";
 
 export default function Preview({ selectedListing }) {
-    console.log(selectedListing);
     return (
         <div className="preview">
             <img
                 src={selectedListing.imageURL}
                 alt="preview"
                 className="preview_image"
+                autoPlay
+                muted
             />
             <div className="preview_data">
                 <div className="preview_header">

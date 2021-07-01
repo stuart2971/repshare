@@ -74,7 +74,7 @@ export default function AddListing({ id, addToListings }) {
             <div className="row">
                 <input
                     className="image_input"
-                    placeholder="Image URL"
+                    placeholder="Imgur link / image URL"
                     onChange={(e) => setItemImage(e.target.value)}
                 />
             </div>

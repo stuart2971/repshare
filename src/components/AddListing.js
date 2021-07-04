@@ -6,7 +6,7 @@ import { createListing } from "../utils/requests";
 
 import RepShare from "./RepShare.json";
 
-export default function AddListing({ id, addToListings }) {
+export default function AddListing({ id, addToListings, updateListing }) {
     const [itemLink, setItemLink] = useState("");
     const [name, setName] = useState("");
     const [rating, setRating] = useState("");
@@ -34,8 +34,18 @@ export default function AddListing({ id, addToListings }) {
             imageURL: itemImage,
             tag: selectedTag,
         };
+        const temporaryListingID = Math.random() * 100000 + "TEMPID";
+        addToListings({
+            link: itemLink,
+            itemName: name || "Fetching item name...",
+            rating,
+            imageURL: itemImage || "Fetching image...",
+            price: "Fetching price...",
+            tag: selectedTag,
+            _id: temporaryListingID,
+        });
         const newListing = await createListing(id, listing);
-        addToListings(newListing);
+        updateListing(id, temporaryListingID, newListing);
     }
     return (
         <div className="add_listing_container">

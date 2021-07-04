@@ -49,16 +49,35 @@ export default function Main() {
             [selectedHaul._id]: oldSavedListings,
         });
     }
+    function updateListing(haulID, temporaryListingID, newListing) {
+        let updatedListings = savedListings[haulID];
+
+        for (let i = updatedListings.length - 1; i > 0; i--) {
+            if (updatedListings[i]._id === temporaryListingID) {
+                updatedListings[i] = newListing;
+            }
+        }
+        setSavedListings({
+            ...savedListings,
+            [haulID]: updatedListings,
+        });
+    }
     async function removeListing() {
-        const data = await deleteListing(selectedHaul._id, selectedListing._id);
+        let listingID = selectedListing._id;
+        console.log(listingID);
+        if (!listingID.includes("TEMPID")) {
+            const data = await deleteListing(selectedHaul._id, listingID);
+        }
+
         let newListings = listings.filter(
-            (listing) => listing._id !== selectedListing._id
+            (listing) => listing._id !== listingID
         );
         setSavedListings({
             ...savedListings,
             [selectedHaul._id]: newListings,
         });
     }
+    console.log(savedListings);
     return (
         <section className="main_section">
             <div className="container">
@@ -84,6 +103,7 @@ export default function Main() {
                     <AddListing
                         addToListings={addToListings}
                         id={selectedHaul._id}
+                        updateListing={updateListing}
                     />
                     <div className="filter_container space_between">
                         <p className="filter_text">Filter</p>

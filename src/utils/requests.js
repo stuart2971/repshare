@@ -45,3 +45,10 @@ export async function getListings(haulID) {
     );
     return response.json();
 }
+
+export async function deleteListing(haulID, listingID) {
+    let response = await fetch(
+        `http://localhost:3001/haul/deleteListing/${haulID}/${listingID}`
+    );
+    return response.json();
+}

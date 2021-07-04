@@ -34,7 +34,6 @@ export default function AddListing({ id, addToListings }) {
             imageURL: itemImage,
             tag: selectedTag,
         };
-
         const newListing = await createListing(id, listing);
         addToListings(newListing);
     }

@@ -2,8 +2,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 
 import { getHaulNames, addHaul } from "../utils/requests";
-
 import Tab from "./MiniComponents/Tab";
+
+import "./styles/Tabs.css";
 
 export default function Tabs({ setSelectedHaul }) {
     const { isAuthenticated, user } = useAuth0();

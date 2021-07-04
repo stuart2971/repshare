@@ -5,6 +5,7 @@ export default function Listing({ listing, setSelectedListing }) {
         <div onClick={() => setSelectedListing(listing)} className="listing">
             <div className="space_between">
                 <p className="listing_text">{listing.itemName}</p>
+
                 <p className="listing_text">{listing.price}</p>
             </div>
             <div className="space_between">

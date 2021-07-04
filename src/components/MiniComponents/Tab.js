@@ -1,6 +1,6 @@
 import { deleteHaul } from "../../utils/requests";
 
-import deleteIcon from "../../icons/delete.png";
+import { XIcon } from "@heroicons/react/outline";
 
 export default function Tab({
     haul,
@@ -19,11 +19,7 @@ export default function Tab({
     return (
         <div className={`relative tab ${isActive ? "tab_active" : ""}`}>
             {isActive ? (
-                <img
-                    onClick={removeHaul}
-                    className="tab_delete_icon"
-                    src={deleteIcon}
-                />
+                <XIcon onClick={removeHaul} className="tab_delete_icon" />
             ) : (
                 <></>
             )}

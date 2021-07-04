@@ -8,10 +8,11 @@ import Tabs from "./Tabs";
 import Listing from "./MiniComponents/Listing";
 
 import "./styles/Main.css";
-import linkIcon from "../icons/link.png";
-// import linkIcon_copied from "../icons/link_copied.png";
+import "./styles/Listings.css";
+import { XIcon } from "@heroicons/react/outline";
+import { LinkIcon } from "@heroicons/react/outline";
 
-import { getUser, getListings } from "../utils/requests";
+import { getUser, getListings, deleteListing } from "../utils/requests";
 
 // https://dev.to/andyrewlee/cheat-sheet-for-updating-objects-and-arrays-in-react-state-48np
 export default function Main() {
@@ -19,6 +20,7 @@ export default function Main() {
     const [savedListings, setSavedListings] = useState({});
     const [selectedHaul, setSelectedHaul] = useState({});
     const [selectedListing, setSelectedListing] = useState({});
+    let listings = savedListings[selectedHaul._id];
 
     useEffect(async () => {
         //Makes sure there is an account in mongo, if not it makes one.
@@ -47,26 +49,37 @@ export default function Main() {
             [selectedHaul._id]: oldSavedListings,
         });
     }
-    console.log("rendered");
-    let listings = savedListings[selectedHaul._id];
+    async function removeListing() {
+        const data = await deleteListing(selectedHaul._id, selectedListing._id);
+        let newListings = listings.filter(
+            (listing) => listing._id !== selectedListing._id
+        );
+        setSavedListings({
+            ...savedListings,
+            [selectedHaul._id]: newListings,
+        });
+    }
     return (
         <section className="main_section">
             <div className="container">
-                <div className="tabs_container">
-                    <h1 className="logo">RepShare</h1>
+                <div className="flex_item tabs_container">
+                    <h1 className="logo inline_block">RepShare</h1>
+                    <div className="tooltip ml_40">
+                        <span className="tooltiptext">
+                            {isAuthenticated ? "Log out" : "Log in"}
+                        </span>
+                        <CredentialButton />
+                    </div>
+
                     <Tabs setSelectedHaul={setSelectedHaul} />
-                    <CredentialButton />
                 </div>
-                <div className="items_container">
+                <div className="flex_item items_container">
                     <h3 className="tab_selected inline_block">
                         {selectedHaul.name}
                     </h3>
-                    <div className="inline_block">
-                        <img
-                            className="link_icon"
-                            src={linkIcon}
-                            alt="preview listing"
-                        />
+                    <div className="tooltip">
+                        <span className="tooltiptext">Copy</span>
+                        <LinkIcon className="link_icon" />
                     </div>
                     <AddListing
                         addToListings={addToListings}
@@ -105,16 +118,27 @@ export default function Main() {
                                 .reverse()
                                 .map((listing, i) => {
                                     return (
-                                        <Listing
-                                            listing={listing}
-                                            tag={listing.tag}
-                                            price={listing.price}
-                                            rating={listing.rating}
-                                            setSelectedListing={
-                                                setSelectedListing
-                                            }
-                                            key={i}
-                                        />
+                                        <div className="relative" key={i}>
+                                            {JSON.stringify(selectedListing) ===
+                                            JSON.stringify(listing) ? (
+                                                <XIcon
+                                                    onClick={removeListing}
+                                                    className="tab_delete_icon"
+                                                />
+                                            ) : (
+                                                <></>
+                                            )}
+
+                                            <Listing
+                                                listing={listing}
+                                                tag={listing.tag}
+                                                price={listing.price}
+                                                rating={listing.rating}
+                                                setSelectedListing={
+                                                    setSelectedListing
+                                                }
+                                            />
+                                        </div>
                                     );
                                 })
                         ) : (
@@ -122,9 +146,12 @@ export default function Main() {
                         )}
                     </div>
                 </div>
-                <div className="preview_container">
-                    <div className="logout_container" />
-                    <Preview selectedListing={selectedListing} />
+                <div className="flex_item preview_container">
+                    {Object.keys(selectedListing).length !== 0 ? (
+                        <Preview selectedListing={selectedListing} />
+                    ) : (
+                        <></>
+                    )}
                 </div>
             </div>
         </section>

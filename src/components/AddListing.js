@@ -1,4 +1,3 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import { useState } from "react";
 
 import Tag from "./MiniComponents/Tag";
@@ -44,6 +43,10 @@ export default function AddListing({ id, addToListings, updateListing }) {
             tag: selectedTag,
             _id: temporaryListingID,
         });
+        setItemLink("");
+        setName("");
+        setRating("");
+        setItemImage("");
         const newListing = await createListing(id, listing);
         updateListing(id, temporaryListingID, newListing);
     }
@@ -51,10 +54,10 @@ export default function AddListing({ id, addToListings, updateListing }) {
         <div className="add_listing_container">
             <div className="row">
                 <input
+                    value={itemLink}
                     type="text"
                     className="url_input"
-                    placeholder="Taobao Link"
-                    htmlFor="url"
+                    placeholder="Taobao/Weidian Link"
                     onChange={(e) => setItemLink(e.target.value)}
                 />
                 <button
@@ -68,12 +71,14 @@ export default function AddListing({ id, addToListings, updateListing }) {
 
             <div className="row">
                 <input
+                    value={name}
                     type="text"
                     className="item_name_input"
                     placeholder="Item Name"
                     onChange={(e) => setName(e.target.value)}
                 />
                 <input
+                    value={rating}
                     type="number"
                     className="rating_input"
                     placeholder="% Rating"
@@ -82,6 +87,7 @@ export default function AddListing({ id, addToListings, updateListing }) {
             </div>
             <div className="row">
                 <input
+                    value={itemImage}
                     className="image_input"
                     placeholder="Imgur link / image URL"
                     onChange={(e) => setItemImage(e.target.value)}

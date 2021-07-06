@@ -1,4 +1,6 @@
-.tabs_container {
+.tabs {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
 }
 
 .logo {
@@ -9,6 +11,7 @@
 .credential_container {
     width: fit-content;
     cursor: pointer;
+    opacity: 0.5;
 }
 .credentials_button {
     width: 30px;
@@ -43,4 +46,7 @@
 }
 .tab_active {
     text-decoration: underline;
+}
+.currency_dropdown {
+    margin: 0px;
 }

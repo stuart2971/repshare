@@ -52,3 +52,9 @@ export async function deleteListing(haulID, listingID) {
     );
     return response.json();
 }
+export async function changeCurrency(auth0ID, currency) {
+    let response = await fetch(
+        `http://localhost:3001/user/changeCurrency/${auth0ID}/${currency}`
+    );
+    return response.json();
+}

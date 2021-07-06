@@ -45,7 +45,10 @@ export default function Preview({ selectedListing }) {
                     </div>
                 </div>
                 <p className="preview_price">{selectedListing.price}</p>
-                <a className="see_item" href={selectedListing.link}>
+                <a
+                    className="see_item"
+                    onClick={() => window.open(selectedListing.link)}
+                >
                     <img
                         style={{ width: "25px" }}
                         src={seePageIcon}

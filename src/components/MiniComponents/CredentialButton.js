@@ -1,7 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
 
-import { LoginIcon, LogoutIcon } from "@heroicons/react/outline";
-
 export default function CredentialButton() {
     const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
 
@@ -13,11 +11,7 @@ export default function CredentialButton() {
     }
     return (
         <div className="credential_container" onClick={handleCredentials}>
-            {isAuthenticated ? (
-                <LogoutIcon className="credentials_button" />
-            ) : (
-                <LoginIcon className="credentials_button" />
-            )}
+            {isAuthenticated ? "Logout" : "Login"}
         </div>
     );
 }

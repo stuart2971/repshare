@@ -37,7 +37,6 @@
     border-radius: 15px;
     border: 1px black solid;
     font-size: 0.8rem;
-    font-family: "Roboto", sans-serif;
 }
 .add_listing_container .tag {
     margin-right: 10px;
@@ -54,7 +53,6 @@
     display: flex;
 }
 .filter_dropdown {
-    margin-left: 10px;
     padding: 10px;
 }
 
@@ -66,9 +64,6 @@
     padding-top: 10px;
     padding-bottom: 5px;
     cursor: pointer;
-}
-.listing_text {
-    font-family: "Roboto", sans-serif;
 }
 .rating {
     background-color: #f99526;

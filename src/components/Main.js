@@ -15,6 +15,7 @@ import { getUser } from "../utils/requests";
 // https://dev.to/andyrewlee/cheat-sheet-for-updating-objects-and-arrays-in-react-state-48np
 export default function Main() {
     const { isAuthenticated, user } = useAuth0();
+
     const [selectedHaul, setSelectedHaul] = useState({});
     const [selectedListing, setSelectedListing] = useState({});
     const [currency, setCurrency] = useState("");
@@ -39,12 +40,16 @@ export default function Main() {
                     </div>
 
                     <Tabs setSelectedHaul={setSelectedHaul} />
+
                     {isAuthenticated ? (
-                        <CurrencyDropdown
-                            auth0ID={user.sub}
-                            setCurrency={setCurrency}
-                            currency={currency}
-                        />
+                        <div>
+                            <p>{user.name}</p>
+                            <CurrencyDropdown
+                                auth0ID={user.sub}
+                                setCurrency={setCurrency}
+                                currency={currency}
+                            />
+                        </div>
                     ) : (
                         <></>
                     )}

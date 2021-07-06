@@ -1,5 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import { getHaulNames, addHaul } from "../utils/requests";
 import Tab from "./MiniComponents/Tab";
@@ -8,6 +9,7 @@ import "./styles/Tabs.css";
 
 export default function Tabs({ setSelectedHaul }) {
     const { isAuthenticated, user } = useAuth0();
+    const history = useHistory();
 
     const [activeTab, setActiveTab] = useState("");
     const [hauls, setHauls] = useState([]);
@@ -20,7 +22,11 @@ export default function Tabs({ setSelectedHaul }) {
         if (!data) return;
         const recentHaul = data.hauls[data.hauls.length - 1];
         setHauls(data.hauls);
-        if (data.hauls.length > 0) changeTab(recentHaul);
+        if (data.hauls.length > 0) {
+            if (history.location.pathname === "/") {
+                changeTab(recentHaul);
+            }
+        }
         // useEffect only renders on mount and NOT when component rerenders.  (Only watches isAuthenticated for changes)
     }, [isAuthenticated]);
 
@@ -34,6 +40,7 @@ export default function Tabs({ setSelectedHaul }) {
     function changeTab(haul) {
         setActiveTab(haul._id);
         setSelectedHaul(haul);
+        history.replace("/");
     }
     function removeHaulFromArray(id) {
         setHauls(hauls.filter((haul) => haul._id !== id));

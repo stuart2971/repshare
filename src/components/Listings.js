@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useHistory } from "react-router-dom";
+import CopyToClipboard from "react-copy-to-clipboard";
+import { useEffect, useState } from "react";
 
 import AddListing from "./AddListing";
 import Listing from "./MiniComponents/Listing";
@@ -14,25 +16,44 @@ export default function Listings({
     setSelectedListing,
     currency,
 }) {
-    const [savedListings, setSavedListings] = useState({});
-    let listings = savedListings[selectedHaul._id];
+    const history = useHistory();
+    let urlID = getHaulIDFromURL();
 
-    if (!savedListings[selectedHaul._id]) {
-        getListings(selectedHaul._id)
-            .then((data) => {
+    const [savedListings, setSavedListings] = useState({});
+    let listings = savedListings[selectedHaul._id] || savedListings[urlID];
+
+    console.log("rednderd");
+    useEffect(async () => {
+        if (urlID && !savedListings[urlID]) {
+            const data = await getListings(urlID);
+            if (data) {
+                setSavedListings({
+                    ...savedListings,
+                    [urlID]: data.listings,
+                });
+            }
+        } else {
+            if (!listings) {
+                const data = await getListings(selectedHaul._id);
                 if (data)
                     setSavedListings({
                         ...savedListings,
                         [selectedHaul._id]: data.listings,
                     });
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+            }
+        }
+    });
+
+    function getHaulIDFromURL() {
+        let path = history.location.pathname;
+        if (path !== "/") {
+            return path.substring(1, path.length);
+        }
+        return null;
     }
 
     function addToListings(l) {
-        let oldSavedListings = savedListings[selectedHaul._id];
+        let oldSavedListings = listings;
         oldSavedListings.push(l);
         setSavedListings({
             ...savedListings,
@@ -70,15 +91,29 @@ export default function Listings({
     return (
         <div>
             <h3 className="tab_selected inline_block">{selectedHaul.name}</h3>
-            <div className="tooltip">
-                <span className="tooltiptext">Copy</span>
-                <LinkIcon className="link_icon" />
-            </div>
-            <AddListing
-                addToListings={addToListings}
-                id={selectedHaul._id}
-                updateListing={updateListing}
-            />
+            {!urlID ? (
+                <div className="tooltip">
+                    <span className="tooltiptext">Copy</span>
+                    <CopyToClipboard
+                        text={"http://localhost:3000/" + selectedHaul._id}
+                    >
+                        <LinkIcon className="link_icon" />
+                    </CopyToClipboard>
+                </div>
+            ) : (
+                <></>
+            )}
+
+            {!urlID ? (
+                <AddListing
+                    addToListings={addToListings}
+                    id={selectedHaul._id}
+                    updateListing={updateListing}
+                />
+            ) : (
+                <></>
+            )}
+
             <Filters />
             <div className="listings_container">
                 {listings ? (
@@ -89,7 +124,7 @@ export default function Listings({
                             return (
                                 <div className="relative" key={i}>
                                     {JSON.stringify(selectedListing) ===
-                                    JSON.stringify(listing) ? (
+                                        JSON.stringify(listing) && !urlID ? (
                                         <XIcon
                                             onClick={removeListing}
                                             className="tab_delete_icon"

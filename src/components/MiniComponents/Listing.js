@@ -6,8 +6,7 @@ export default function Listing({ listing, setSelectedListing, currency }) {
     // Might want to use an api or something instead
     function convertToCurrency(p) {
         let price = parseFloat(p);
-        if (currency === "CNY") return price;
-        console.log(currency);
+        if (currency === "CNY") return "¥" + price;
 
         switch (currency) {
             case "CAD":

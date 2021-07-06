@@ -9,6 +9,7 @@ function App() {
         <BrowserRouter>
             <Switch>
                 <Route path="/" component={Main} />
+                <Route path="/:haulID" component={Main} />
             </Switch>
         </BrowserRouter>
     );

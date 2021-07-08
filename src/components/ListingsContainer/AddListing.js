@@ -1,9 +1,9 @@
 import { useState } from "react";
 
-import Tag from "./MiniComponents/Tag";
-import { createListing } from "../utils/requests";
+import Tag from "../MiniComponents/Tag";
+import { createListing } from "../../utils/requests";
 
-import RepShare from "./RepShare.json";
+import RepShare from "../RepShare.json";
 
 export default function AddListing({ id, addToListings, updateListing }) {
     const [itemLink, setItemLink] = useState("");
@@ -29,7 +29,7 @@ export default function AddListing({ id, addToListings, updateListing }) {
         const listing = {
             link: itemLink,
             itemName: name,
-            rating,
+            rating: parseInt(rating),
             imageURL: itemImage,
             tag: selectedTag,
         };

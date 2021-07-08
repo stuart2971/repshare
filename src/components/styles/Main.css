@@ -21,6 +21,8 @@ section {
     width: 100vw;
     min-height: 100vh;
     padding: 3.938rem 7.188rem 3.938rem 7.188rem;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 .main_section .container {
     width: 100%;
@@ -32,16 +34,13 @@ section {
     margin: 0px 10px 0px 10px;
 }
 .flex_item:nth-child(1) {
-    /* background-color: blue; */
     flex-grow: 1;
 }
 .flex_item:nth-child(2) {
-    /* background-color: green; */
     flex-grow: 2;
 }
 .flex_item:nth-child(3) {
-    /* background-color: red; */
-    flex-grow: 10;
+    flex-grow: 3;
 }
 input {
     border-color: rgba(0, 0, 0, 0.1);
@@ -76,6 +75,9 @@ input:focus {
 }
 .ml_40 {
     margin-left: 10px;
+}
+.mb_10 {
+    margin-bottom: 10px;
 }
 /* Tooltip */
 
@@ -122,7 +124,7 @@ input:focus {
         display: none;
     }
     .main_section {
-        padding: 30px;
+        padding: 0px;
         width: 100vw;
     }
     .items_container {

@@ -2,7 +2,6 @@ import { changeCurrency } from "../../utils/requests";
 
 export default function CurrencyDropdown({ auth0ID, currency, setCurrency }) {
     async function changeCurrencyTo(curr) {
-        console.log(curr);
         if (auth0ID) await changeCurrency(auth0ID, curr);
         setCurrency(curr);
     }
@@ -10,7 +9,7 @@ export default function CurrencyDropdown({ auth0ID, currency, setCurrency }) {
     return (
         <select
             onChange={(e) => changeCurrencyTo(e.target.value)}
-            className="filter_dropdown faded50"
+            className="filter_dropdown faded50 mb_10"
             value={currency}
         >
             <option value="CNY">Yuan</option>

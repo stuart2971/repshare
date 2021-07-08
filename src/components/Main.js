@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 
-import Listings from "./Listings";
+import ListingsContainer from "./ListingsContainer/ListingsContainer";
 import Preview from "./Preview";
 import CredentialButton from "./MiniComponents/CredentialButton";
 import Tabs from "./Tabs";
@@ -43,7 +43,7 @@ export default function Main() {
 
                     {isAuthenticated ? (
                         <div>
-                            <p>{user.name}</p>
+                            <p className="mb_10">{user.name}</p>
                             <CurrencyDropdown
                                 auth0ID={user.sub}
                                 setCurrency={setCurrency}
@@ -56,7 +56,7 @@ export default function Main() {
                     <CredentialButton />
                 </div>
                 <div className="flex_item items_container">
-                    <Listings
+                    <ListingsContainer
                         isAuthenticate={isAuthenticated}
                         selectedHaul={selectedHaul}
                         selectedListing={selectedListing}
@@ -66,7 +66,10 @@ export default function Main() {
                 </div>
                 <div className="flex_item preview_container">
                     {Object.keys(selectedListing).length !== 0 ? (
-                        <Preview selectedListing={selectedListing} />
+                        <Preview
+                            currency={currency}
+                            selectedListing={selectedListing}
+                        />
                     ) : (
                         <></>
                     )}

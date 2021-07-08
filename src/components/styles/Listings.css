@@ -13,6 +13,7 @@
 .add_listing_container {
     border-bottom: 1px rgba(0, 0, 0, 0.1) solid;
     margin-bottom: 10px;
+    overflow: none;
 }
 .add_listing_container .row {
     display: flex;
@@ -26,11 +27,12 @@
     width: 100%;
 }
 .item_name_input {
-    flex-grow: 1;
+    flex-grow: 100;
     margin-right: 10px;
 }
 .rating_input {
-    flex-grow: 0.1;
+    flex-grow: 1;
+    max-width: 100px;
 }
 .tag {
     padding: 4px 6px 4px 6px;

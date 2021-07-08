@@ -6,13 +6,13 @@
     border-radius: 10px;
     position: sticky;
     top: 10%;
-    width: fit-content;
-    height: fit-content;
+    width: 40em;
+    height: auto;
 }
 .preview_image_container {
     /* background-color: red; */
-    height: auto;
-    max-height: 80vh;
+    height: 50vh;
+    max-height: auto;
 }
 .preview_image {
     border-top-left-radius: 10px;

@@ -1,9 +1,10 @@
 import Tag from "./MiniComponents/Tag";
 
-import seePageIcon from "../icons/see_page.png";
 import "./styles/Preview.css";
+import { ExternalLinkIcon } from "@heroicons/react/solid";
+import { convertCurrency } from "../utils/currency";
 
-export default function Preview({ selectedListing }) {
+export default function Preview({ selectedListing, currency }) {
     return (
         <div className="preview">
             <div className="preview_image_container">
@@ -44,16 +45,14 @@ export default function Preview({ selectedListing }) {
                         )}
                     </div>
                 </div>
-                <p className="preview_price">{selectedListing.price}</p>
+                <p className="preview_price">
+                    {convertCurrency(currency, selectedListing.price)}
+                </p>
                 <a
                     className="see_item"
                     onClick={() => window.open(selectedListing.link)}
                 >
-                    <img
-                        style={{ width: "25px" }}
-                        src={seePageIcon}
-                        alt="Go to link"
-                    />
+                    <ExternalLinkIcon style={{ width: "30px" }} />
                 </a>
             </div>
         </div>

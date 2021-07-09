@@ -4,15 +4,16 @@ import { useEffect, useState } from "react";
 import AddListing from "./AddListing";
 import Listings from "./Listings";
 
-import CopyLinkIcon from "../MiniComponents/CopyLinkIcon";
-
 import { getListings } from "../../utils/requests";
+import "../styles/Tabs.css";
+import HaulDropdown from "./HaulDropdown";
 
 export default function ListingsContainer({
     selectedHaul,
     selectedListing,
-    setSelectedListing,
+    changeSelectedListing,
     currency,
+    setSelectedHaul,
 }) {
     const history = useHistory();
     let urlID = getHaulIDFromURL();
@@ -63,6 +64,7 @@ export default function ListingsContainer({
         for (let i = updatedListings.length - 1; i > 0; i--) {
             if (updatedListings[i]._id === temporaryListingID) {
                 updatedListings[i] = newListing;
+                break;
             }
         }
         setSavedListings({
@@ -73,13 +75,10 @@ export default function ListingsContainer({
 
     return (
         <div>
-            <h3 className="tab_selected inline_block">{selectedHaul.name}</h3>
-
-            {!urlID ? (
-                <CopyLinkIcon selectedHaulID={selectedHaul._id} />
-            ) : (
-                <></>
-            )}
+            <HaulDropdown
+                setSelectedHaul={setSelectedHaul}
+                selectedHaul={selectedHaul}
+            />
 
             {!urlID ? (
                 <AddListing
@@ -95,7 +94,7 @@ export default function ListingsContainer({
                 selectedListingID={selectedListing._id}
                 selectedHaulID={selectedHaul._id}
                 currency={currency}
-                setSelectedListing={setSelectedListing}
+                changeSelectedListing={changeSelectedListing}
                 setSavedListings={setSavedListings}
                 savedListings={savedListings}
                 urlID={urlID}

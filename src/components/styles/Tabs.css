@@ -50,3 +50,28 @@
 .currency_dropdown {
     margin: 0px;
 }
+
+/* Navbar Styles */
+
+.navbar {
+    padding: 20px 20vw 0px 20vw;
+    position: sticky;
+    top: 0;
+    height: 70px;
+    background-color: white;
+    z-index: 1;
+}
+.menuButton {
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 30px 10px 30px;
+    cursor: pointer;
+}
+.menuButton .dropdown_icon {
+    width: 30px;
+    width: 30px;
+}
+.tab_selected {
+    padding: 10px 30px 10px 0px;
+}

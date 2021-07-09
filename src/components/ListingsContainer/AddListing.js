@@ -36,10 +36,10 @@ export default function AddListing({ id, addToListings, updateListing }) {
         const temporaryListingID = Math.random() * 100000 + "TEMPID";
         addToListings({
             link: itemLink,
-            itemName: name || "Fetching item name...",
+            itemName: name || "",
             rating,
-            imageURL: itemImage || "Fetching image...",
-            price: "Fetching price...",
+            imageURL: itemImage || "",
+            price: "",
             tag: selectedTag,
             _id: temporaryListingID,
         });
@@ -48,6 +48,7 @@ export default function AddListing({ id, addToListings, updateListing }) {
         setRating("");
         setItemImage("");
         const newListing = await createListing(id, listing);
+
         updateListing(id, temporaryListingID, newListing);
     }
     return (

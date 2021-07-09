@@ -1,18 +1,18 @@
 .preview_container {
     flex-basis: 0em;
+    display: inline-block;
 }
 .preview {
     border: 1px rgba(0, 0, 0, 0.1) solid;
     border-radius: 10px;
     position: sticky;
     top: 10%;
-    width: 40em;
+    width: auto;
     height: auto;
+    /* background-color: green; */
 }
 .preview_image_container {
-    /* background-color: red; */
-    height: 50vh;
-    max-height: auto;
+    height: auto;
 }
 .preview_image {
     border-top-left-radius: 10px;

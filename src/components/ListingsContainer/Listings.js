@@ -9,7 +9,7 @@ export default function Listings({
     selectedListingID,
     selectedHaulID,
     currency,
-    setSelectedListing,
+    changeSelectedListing,
     setSavedListings,
     savedListings,
     urlID,
@@ -33,7 +33,6 @@ export default function Listings({
             [selectedHaulID]: newListings,
         });
     }
-    console.log("Listings rendered");
     return (
         <>
             <Filters
@@ -64,7 +63,9 @@ export default function Listings({
                                         tag={listing.tag}
                                         price={listing.price}
                                         rating={listing.rating}
-                                        setSelectedListing={setSelectedListing}
+                                        changeSelectedListing={
+                                            changeSelectedListing
+                                        }
                                         currency={currency}
                                     />
                                 </div>

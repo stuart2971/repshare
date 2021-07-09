@@ -3,18 +3,18 @@ import { useEffect, useState } from "react";
 
 import ListingsContainer from "./ListingsContainer/ListingsContainer";
 import Preview from "./Preview";
-import CredentialButton from "./MiniComponents/CredentialButton";
-import Tabs from "./Tabs";
-import CurrencyDropdown from "./MiniComponents/CurrencyDropdown";
+import Navbar from "./Navbar";
 
 import "./styles/Main.css";
 import "./styles/Listings.css";
 
 import { getUser } from "../utils/requests";
+import { useHistory } from "react-router-dom";
 
 // https://dev.to/andyrewlee/cheat-sheet-for-updating-objects-and-arrays-in-react-state-48np
 export default function Main() {
     const { isAuthenticated, user } = useAuth0();
+    const history = useHistory();
 
     const [selectedHaul, setSelectedHaul] = useState({});
     const [selectedListing, setSelectedListing] = useState({});
@@ -28,53 +28,40 @@ export default function Main() {
         } else return;
     }, [isAuthenticated]);
 
+    function changeSelectedListing(l) {
+        if (JSON.stringify(l) === JSON.stringify(selectedListing)) {
+            setSelectedListing({});
+        } else {
+            setSelectedListing(l);
+        }
+    }
     return (
-        <section className="main_section">
-            <div className="container">
-                <div className="flex_item tabs_container">
-                    <h1 className="logo inline_block">RepShare</h1>
-                    <div className="tooltip ml_40">
-                        <span className="tooltiptext">
-                            {isAuthenticated ? "Log out" : "Log in"}
-                        </span>
-                    </div>
-
-                    <Tabs setSelectedHaul={setSelectedHaul} />
-
-                    {isAuthenticated ? (
-                        <div>
-                            <p className="mb_10">{user.name}</p>
-                            <CurrencyDropdown
-                                auth0ID={user.sub}
-                                setCurrency={setCurrency}
-                                currency={currency}
-                            />
-                        </div>
-                    ) : (
-                        <></>
-                    )}
-                    <CredentialButton />
-                </div>
-                <div className="flex_item items_container">
-                    <ListingsContainer
-                        isAuthenticate={isAuthenticated}
-                        selectedHaul={selectedHaul}
-                        selectedListing={selectedListing}
-                        setSelectedListing={setSelectedListing}
-                        currency={currency}
-                    />
-                </div>
-                <div className="flex_item preview_container">
-                    {Object.keys(selectedListing).length !== 0 ? (
-                        <Preview
-                            currency={currency}
+        <>
+            <Navbar currency={currency} setCurrency={setCurrency} />
+            <section className="main_section">
+                <div className="container">
+                    <div className="flex_item items_container">
+                        <ListingsContainer
+                            isAuthenticate={isAuthenticated}
+                            selectedHaul={selectedHaul}
+                            setSelectedHaul={setSelectedHaul}
                             selectedListing={selectedListing}
+                            changeSelectedListing={changeSelectedListing}
+                            currency={currency}
                         />
-                    ) : (
-                        <></>
-                    )}
+                    </div>
+                    <div className="flex_item preview_container">
+                        {Object.keys(selectedListing).length !== 0 ? (
+                            <Preview
+                                currency={currency}
+                                selectedListing={selectedListing}
+                            />
+                        ) : (
+                            <></>
+                        )}
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </>
     );
 }

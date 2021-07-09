@@ -5,20 +5,23 @@ import { ExternalLinkIcon } from "@heroicons/react/solid";
 import { convertCurrency } from "../utils/currency";
 
 export default function Preview({ selectedListing, currency }) {
+    const price =
+        convertCurrency(currency, selectedListing.price) || "Cannot find price";
+    const imageURL = selectedListing.imageURL[0];
     return (
         <div className="preview">
             <div className="preview_image_container">
-                <img
-                    src={
-                        selectedListing.imageURL
-                            ? selectedListing.imageURL[0]
-                            : ""
-                    }
-                    alt="preview"
-                    className="preview_image"
-                    autoPlay
-                    muted
-                />
+                {imageURL ? (
+                    <img
+                        src={imageURL}
+                        alt="preview"
+                        className="preview_image"
+                        autoPlay
+                        muted
+                    />
+                ) : (
+                    <></>
+                )}
             </div>
 
             <div className="preview_data">
@@ -45,9 +48,7 @@ export default function Preview({ selectedListing, currency }) {
                         )}
                     </div>
                 </div>
-                <p className="preview_price">
-                    {convertCurrency(currency, selectedListing.price)}
-                </p>
+                <p className="preview_price">{price}</p>
                 <a
                     className="see_item"
                     onClick={() => window.open(selectedListing.link)}

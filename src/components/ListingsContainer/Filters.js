@@ -21,20 +21,23 @@ export default function Filters({ setListings, ALL_LISTINGS, selectedHaulID }) {
         setListings(newListings);
     }, [tag, rating]);
 
+    function clearFilters() {
+        setListings(ALL_LISTINGS);
+        setTag("");
+        setRating("");
+    }
     return (
         <div className="filter_container space_between">
             <p className="filter_text">Filter</p>
             <div>
-                <span
-                    onClick={() => setListings(ALL_LISTINGS)}
-                    className="faded50"
-                >
+                <span onClick={clearFilters} className="faded50">
                     Clear
                 </span>
                 <select
                     name="tags"
                     onChange={(e) => setTag(e.target.value)}
                     className="filter_dropdown faded50 ml_40"
+                    value={tag}
                 >
                     <option value={""}>Tag</option>
                     {RepShare.tags.map((tag, i) => {
@@ -49,6 +52,7 @@ export default function Filters({ setListings, ALL_LISTINGS, selectedHaulID }) {
                     name="ratings"
                     className="filter_dropdown faded50 ml_40"
                     onChange={(e) => setRating(e.target.value)}
+                    value={rating}
                 >
                     <option value={0}>Rating</option>
                     <option value={50}>50%+</option>

@@ -1,8 +1,24 @@
+import { ControlledMenu, MenuItem } from "@szhsin/react-menu";
+import { useState } from "react";
 import { convertCurrency } from "../../utils/currency";
 import Spinner from "./Loader";
 import Tag from "./Tag";
 
-export default function Listing({ listing, changeSelectedListing, currency }) {
+import { deleteListing } from "../../utils/requests";
+import { Notify } from "notiflix";
+
+export default function Listing({
+    listing,
+    changeSelectedListing,
+    currency,
+    setSavedListings,
+    selectedHaulID,
+    savedListings,
+    listings,
+}) {
+    const [isOpen, setOpen] = useState(false);
+    const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
+
     const MAX_LENGTH = 25;
     function shortenItemName(itemName) {
         if (itemName.length > MAX_LENGTH) {
@@ -10,6 +26,27 @@ export default function Listing({ listing, changeSelectedListing, currency }) {
         } else {
             return itemName;
         }
+    }
+    async function removeListing() {
+        console.log("attempting to delete");
+        if (!listing._id.includes("TEMPID")) {
+            const data = await deleteListing(selectedHaulID, listing._id);
+        }
+        console.log("Deleted");
+
+        let newListings = listings;
+        for (let i = 0; i < newListings.length; i++) {
+            if (JSON.stringify(newListings[i]) === JSON.stringify(listing)) {
+                newListings.splice(i, 1);
+                break;
+            }
+        }
+
+        setSavedListings({
+            ...savedListings,
+            [selectedHaulID]: newListings,
+        });
+        Notify.success("Listing Deleted");
     }
     const isFetching = listing._id.includes("TEMPID");
     let price = isFetching ? (
@@ -22,8 +59,34 @@ export default function Listing({ listing, changeSelectedListing, currency }) {
     let itemName = isFetching
         ? "Fetching data..."
         : shortenItemName(listing.itemName);
+
     return (
-        <div onClick={() => changeSelectedListing(listing)} className="listing">
+        <div
+            onClick={() => changeSelectedListing(listing)}
+            className="listing"
+            onContextMenu={(e) => {
+                e.preventDefault();
+                setAnchorPoint({ x: e.clientX, y: e.clientY });
+                setOpen(true);
+            }}
+        >
+            <ControlledMenu
+                anchorPoint={anchorPoint}
+                isOpen={isOpen}
+                onClose={() => setOpen(false)}
+            >
+                <MenuItem
+                    onClick={() => {
+                        console.log(listings);
+                    }}
+                >
+                    Open Quick View
+                </MenuItem>
+                <MenuItem>Edit</MenuItem>
+                <MenuItem styles={{ color: "red" }} onClick={removeListing}>
+                    Delete
+                </MenuItem>
+            </ControlledMenu>
             <div className="space_between">
                 <p className="listing_text">
                     {itemName === "" ? "Cannot find item" : itemName}

@@ -107,7 +107,9 @@ export default function HaulDropdown({ selectedHaul, setSelectedHaul }) {
             <MenuDivider />
             <MenuHeader>Haul Settings</MenuHeader>
             <MenuItem>Copy Link</MenuItem>
-            <MenuItem onClick={removeHaulFromArray}>Delete Haul</MenuItem>
+            <MenuItem styles={{ color: "red" }} onClick={removeHaulFromArray}>
+                Delete Haul
+            </MenuItem>
         </Menu>
     );
 }

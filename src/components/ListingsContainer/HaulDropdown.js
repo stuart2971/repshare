@@ -16,7 +16,7 @@ import {
 import { ChevronDownIcon } from "@heroicons/react/solid";
 
 export default function HaulDropdown({ selectedHaul, setSelectedHaul }) {
-    const { isAuthenticated, user } = useAuth0();
+    const { isAuthenticated, user, loginWithRedirect } = useAuth0();
     const history = useHistory();
 
     const [hauls, setHauls] = useState([]);
@@ -64,14 +64,26 @@ export default function HaulDropdown({ selectedHaul, setSelectedHaul }) {
                     selectedHaul._id
                 );
                 Notify.success("Haul Deleted");
-                setSelectedHaul(hauls[hauls.length - 2]);
+                console.log(hauls);
+                if (hauls.length === 1) setSelectedHaul({});
+                else setSelectedHaul(hauls[hauls.length - 2]);
             },
             () => {}
         );
     }
+    function checkIfAuthenticated() {
+        if (!isAuthenticated) {
+            loginWithRedirect();
+        }
+    }
     const menuButton = (
-        <MenuButton className="menuButton tab_selected ">
-            {selectedHaul.name}
+        <MenuButton
+            className="menuButton tab_selected "
+            onClick={checkIfAuthenticated}
+        >
+            {selectedHaul.name === undefined
+                ? "Create Haul"
+                : selectedHaul.name}
             <ChevronDownIcon className="dropdown_icon" />
         </MenuButton>
     );
@@ -89,7 +101,7 @@ export default function HaulDropdown({ selectedHaul, setSelectedHaul }) {
                     />
                 )}
             </FocusableItem>
-            <MenuHeader>Your Hauls</MenuHeader>
+            <MenuHeader>Your Hauls ({hauls.length})</MenuHeader>
             {hauls
                 .slice(0)
                 .reverse()

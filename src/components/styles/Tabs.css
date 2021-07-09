@@ -7,6 +7,7 @@
     font-size: 2.5rem;
     margin-bottom: 2rem;
     width: fit-content;
+    cursor: pointer;
 }
 .credential_container {
     width: fit-content;

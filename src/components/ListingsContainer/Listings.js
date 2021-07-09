@@ -4,7 +4,6 @@ import Filters from "./Filters";
 import { useEffect, useState } from "react";
 
 export default function Listings({
-    selectedListingID,
     selectedHaulID,
     currency,
     changeSelectedListing,
@@ -27,7 +26,7 @@ export default function Listings({
                 selectedHaulID={selectedHaulID}
             />
             <div className="listings_container">
-                {listings ? (
+                {listings && listings.length > 0 ? (
                     listings
                         .slice(0)
                         .reverse()
@@ -43,13 +42,15 @@ export default function Listings({
                                         currency={currency}
                                         selectedHaulID={selectedHaulID}
                                         savedListings={savedListings}
-                                        listings={listings}
+                                        urlID={urlID}
                                     />
                                 </div>
                             );
                         })
                 ) : (
-                    <></>
+                    <h3 style={{ textAlign: "center" }}>
+                        No items yet. Paste a link above to get started.
+                    </h3>
                 )}
             </div>
         </>

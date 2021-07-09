@@ -7,14 +7,15 @@ import Listings from "./Listings";
 import { getListings } from "../../utils/requests";
 import "../styles/Tabs.css";
 import HaulDropdown from "./HaulDropdown";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function ListingsContainer({
     selectedHaul,
-    selectedListing,
     changeSelectedListing,
     currency,
     setSelectedHaul,
 }) {
+    const { isAuthenticated } = useAuth0();
     const history = useHistory();
     let urlID = getHaulIDFromURL();
 
@@ -80,7 +81,7 @@ export default function ListingsContainer({
                 selectedHaul={selectedHaul}
             />
 
-            {!urlID ? (
+            {!urlID || !isAuthenticated ? (
                 <AddListing
                     addToListings={addToListings}
                     id={selectedHaul._id}
@@ -91,7 +92,6 @@ export default function ListingsContainer({
             )}
 
             <Listings
-                selectedListingID={selectedListing._id}
                 selectedHaulID={selectedHaul._id}
                 currency={currency}
                 changeSelectedListing={changeSelectedListing}

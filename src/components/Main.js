@@ -45,7 +45,6 @@ export default function Main() {
                             isAuthenticate={isAuthenticated}
                             selectedHaul={selectedHaul}
                             setSelectedHaul={setSelectedHaul}
-                            selectedListing={selectedListing}
                             changeSelectedListing={changeSelectedListing}
                             currency={currency}
                         />

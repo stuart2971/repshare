@@ -4,6 +4,7 @@ import Tag from "../MiniComponents/Tag";
 import { createListing } from "../../utils/requests";
 
 import RepShare from "../RepShare.json";
+import { Notify } from "notiflix";
 
 export default function AddListing({ id, addToListings, updateListing }) {
     const [itemLink, setItemLink] = useState("");
@@ -25,7 +26,15 @@ export default function AddListing({ id, addToListings, updateListing }) {
         });
     }
     async function addListing() {
-        if (!itemLink) return;
+        if (!itemLink) {
+            Notify.failure("You have to enter a link");
+            return;
+        }
+        if (!id) {
+            Notify.failure("You have to select a haul first");
+
+            return;
+        }
         const listing = {
             link: itemLink,
             itemName: name,
@@ -51,6 +60,7 @@ export default function AddListing({ id, addToListings, updateListing }) {
 
         updateListing(id, temporaryListingID, newListing);
     }
+    console.log(id);
     return (
         <div className="add_listing_container">
             <div className="row">

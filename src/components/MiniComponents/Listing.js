@@ -14,7 +14,6 @@ export default function Listing({
     setSavedListings,
     selectedHaulID,
     savedListings,
-    listings,
 }) {
     const [isOpen, setOpen] = useState(false);
     const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
@@ -28,13 +27,10 @@ export default function Listing({
         }
     }
     async function removeListing() {
-        console.log("attempting to delete");
         if (!listing._id.includes("TEMPID")) {
             const data = await deleteListing(selectedHaulID, listing._id);
         }
-        console.log("Deleted");
-
-        let newListings = listings;
+        let newListings = savedListings[selectedHaulID];
         for (let i = 0; i < newListings.length; i++) {
             if (JSON.stringify(newListings[i]) === JSON.stringify(listing)) {
                 newListings.splice(i, 1);
@@ -75,13 +71,7 @@ export default function Listing({
                 isOpen={isOpen}
                 onClose={() => setOpen(false)}
             >
-                <MenuItem
-                    onClick={() => {
-                        console.log(listings);
-                    }}
-                >
-                    Open Quick View
-                </MenuItem>
+                <MenuItem>Open Quick View</MenuItem>
                 <MenuItem>Edit</MenuItem>
                 <MenuItem styles={{ color: "red" }} onClick={removeListing}>
                     Delete

@@ -1,55 +1,8 @@
-.tabs {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
-}
-
 .logo {
     font-size: 2.5rem;
     margin-bottom: 2rem;
     width: fit-content;
     cursor: pointer;
-}
-.credential_container {
-    width: fit-content;
-    cursor: pointer;
-    opacity: 0.5;
-}
-.credentials_button {
-    width: 30px;
-}
-.tab {
-    margin-bottom: 1rem;
-    padding: 0px;
-    height: auto;
-}
-.tab_delete_icon {
-    width: 20px;
-    position: absolute;
-    left: -30px;
-    top: 20%;
-    cursor: pointer;
-}
-
-.tab_input {
-    border: 0px;
-    font-size: 1.3rem;
-    margin-bottom: 2rem;
-    height: 20px;
-}
-
-.delete_tab {
-    position: absolute;
-    right: 10%;
-}
-.tab_text {
-    font-size: 1.3rem;
-    cursor: pointer;
-}
-.tab_active {
-    text-decoration: underline;
-}
-.currency_dropdown {
-    margin: 0px;
 }
 
 /* Navbar Styles */
@@ -62,15 +15,23 @@
     background-color: white;
     z-index: 1;
 }
-.menuButton {
+@media only screen and (max-width: 992px) {
+    .navbar {
+        padding: 20px 0px 0px 10px;
+    }
+}
+.profile_dropdown {
     background-color: white;
     border: none;
     border-radius: 10px;
     padding: 10px 30px 10px 30px;
     cursor: pointer;
 }
-.menuButton .dropdown_icon {
-    width: 30px;
+.profile_dropdown img {
+    width: 3em;
+    border-radius: 100%;
+}
+.dropdown_icon {
     width: 30px;
 }
 .tab_selected {

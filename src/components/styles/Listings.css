@@ -18,20 +18,28 @@
     display: flex;
     margin-bottom: 10px;
 }
+.add_listing_container .row:nth-child(2) {
+    /* background-color: rgb(255, 0, 0); */
+    flex-wrap: wrap;
+}
 .url_input {
     flex-grow: 2;
     margin-right: 10px;
 }
-.image_input {
-    width: 100%;
-}
+
 .item_name_input {
     flex-grow: 100;
     margin-right: 10px;
 }
 .rating_input {
     flex-grow: 1;
-    max-width: 100px;
+}
+.image_input {
+    width: 100%;
+}
+
+.tag_container {
+    overflow: scroll;
 }
 .tag {
     padding: 4px 6px 4px 6px;
@@ -53,10 +61,17 @@
     margin-bottom: 10px;
     display: flex;
 }
-.filter_dropdown {
-    padding: 10px;
+.current_filters p {
+    margin: 0px 5px 0px 5px;
 }
-
+.filter_dropdown {
+    background-color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    font-size: 1em;
+    cursor: pointer;
+}
 .listings_container .space_between {
     margin-bottom: 5px;
 }

@@ -6,6 +6,8 @@ import { createListing } from "../../utils/requests";
 import RepShare from "../RepShare.json";
 import { Notify } from "notiflix";
 
+import "../styles/Main.css";
+
 export default function AddListing({ id, addToListings, updateListing }) {
     const [itemLink, setItemLink] = useState("");
     const [name, setName] = useState("");
@@ -74,7 +76,7 @@ export default function AddListing({ id, addToListings, updateListing }) {
                 <button
                     onClick={addListing}
                     type="submit"
-                    className="theme_button"
+                    className="theme_button add_button"
                 >
                     Add Item
                 </button>
@@ -104,11 +106,14 @@ export default function AddListing({ id, addToListings, updateListing }) {
                     onChange={(e) => setItemImage(e.target.value)}
                 />
             </div>
-            <div className="row">
-                {renderTags()}
-                <span className="faded50" onClick={() => setSelectedTag("")}>
+            <div className="row tag_container">
+                <span
+                    className="faded50 mr_40"
+                    onClick={() => setSelectedTag("")}
+                >
                     Clear
                 </span>
+                {renderTags()}
             </div>
         </div>
     );

@@ -1,5 +1,42 @@
+import {
+    Menu,
+    MenuButton,
+    SubMenu,
+    MenuItem,
+    MenuRadioGroup,
+    MenuDivider,
+} from "@szhsin/react-menu";
 import { useEffect, useState } from "react";
 import RepShare from "../RepShare.json";
+
+import { AdjustmentsIcon } from "@heroicons/react/outline";
+
+const RATING_FILTER_OPTIONS = [
+    {
+        name: "50%+",
+        value: 50,
+    },
+    {
+        name: "60%+",
+        value: 60,
+    },
+    {
+        name: "70%+",
+        value: 70,
+    },
+    {
+        name: "80%+",
+        value: 80,
+    },
+    {
+        name: "90%+",
+        value: 90,
+    },
+    {
+        name: "100%+",
+        value: 100,
+    },
+];
 
 export default function Filters({ setListings, ALL_LISTINGS, selectedHaulID }) {
     const [tag, setTag] = useState("");
@@ -27,41 +64,54 @@ export default function Filters({ setListings, ALL_LISTINGS, selectedHaulID }) {
         setRating("");
     }
     return (
-        <div className="filter_container space_between">
-            <p className="filter_text">Filter</p>
-            <div>
-                <span onClick={clearFilters} className="faded50">
-                    Clear
-                </span>
-                <select
-                    name="tags"
-                    onChange={(e) => setTag(e.target.value)}
-                    className="filter_dropdown faded50 ml_40"
-                    value={tag}
-                >
-                    <option value={""}>Tag</option>
-                    {RepShare.tags.map((tag, i) => {
-                        return (
-                            <option key={i} value={tag}>
-                                {tag}
-                            </option>
-                        );
-                    })}
-                </select>
-                <select
-                    name="ratings"
-                    className="filter_dropdown faded50 ml_40"
-                    onChange={(e) => setRating(e.target.value)}
-                    value={rating}
-                >
-                    <option value={0}>Rating</option>
-                    <option value={50}>50%+</option>
-                    <option value={60}>60%+</option>
-                    <option value={70}>70%+</option>
-                    <option value={80}>80%+</option>
-                    <option value={90}>90%+</option>
-                    <option value={100}>100%</option>
-                </select>
+        <div className="filter_container">
+            <Menu
+                menuButton={
+                    <MenuButton className="filter_dropdown">
+                        Filter
+                        <AdjustmentsIcon style={{ width: "25px" }} />
+                    </MenuButton>
+                }
+                arrow="arrow"
+            >
+                <SubMenu label="Tag">
+                    <MenuRadioGroup value={tag}>
+                        {RepShare.tags.map((tag, i) => {
+                            return (
+                                <MenuItem
+                                    onClick={(e) => setTag(e.value)}
+                                    value={tag}
+                                >
+                                    {tag}
+                                </MenuItem>
+                            );
+                        })}
+                    </MenuRadioGroup>
+                </SubMenu>
+                <SubMenu label="Rating">
+                    <MenuRadioGroup value={rating}>
+                        {RATING_FILTER_OPTIONS.map((option, i) => {
+                            return (
+                                <MenuItem
+                                    onClick={(e) => setRating(e.value)}
+                                    value={option.value}
+                                >
+                                    {option.name}
+                                </MenuItem>
+                            );
+                        })}
+                    </MenuRadioGroup>
+                </SubMenu>
+                <MenuDivider />
+                <MenuItem onClick={clearFilters}>Clear Filters</MenuItem>
+            </Menu>
+            <div
+                className="faded50 current_filters"
+                style={{ display: "flex" }}
+            >
+                {tag || rating ? <p>Current Filters: </p> : <></>}
+                {tag ? <p>{tag}</p> : <></>}
+                {rating ? <p>{rating}%+</p> : <></>}
             </div>
         </div>
     );

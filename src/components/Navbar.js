@@ -13,11 +13,14 @@ import "@szhsin/react-menu/dist/index.css";
 import { changeCurrency } from "../utils/requests";
 import { useHistory } from "react-router-dom";
 
-const menuButton = <MenuButton className="menuButton">Profile</MenuButton>;
-
 export default function Navbar({ currency, setCurrency }) {
     const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0();
     const history = useHistory();
+    const menuButton = (
+        <MenuButton className="profile_dropdown">
+            {isAuthenticated ? <img src={user.picture} /> : <></>}
+        </MenuButton>
+    );
 
     async function handleCredentials() {
         if (isAuthenticated) logout();

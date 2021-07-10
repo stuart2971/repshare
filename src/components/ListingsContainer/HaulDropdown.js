@@ -78,7 +78,7 @@ export default function HaulDropdown({ selectedHaul, setSelectedHaul }) {
     }
     const menuButton = (
         <MenuButton
-            className="menuButton tab_selected "
+            className="profile_dropdown tab_selected "
             onClick={checkIfAuthenticated}
         >
             {selectedHaul.name === undefined

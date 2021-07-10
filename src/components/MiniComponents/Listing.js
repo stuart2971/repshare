@@ -71,7 +71,12 @@ export default function Listing({
                 isOpen={isOpen}
                 onClose={() => setOpen(false)}
             >
-                <MenuItem>Open Quick View</MenuItem>
+                <MenuItem onClick={() => console.log(listing)}>
+                    Quick View
+                </MenuItem>
+                <MenuItem onClick={() => window.open(listing.link, "_blank")}>
+                    See Page
+                </MenuItem>
                 <MenuItem>Edit</MenuItem>
                 <MenuItem styles={{ color: "red" }} onClick={removeListing}>
                     Delete

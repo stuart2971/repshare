@@ -9,7 +9,7 @@ import {
 import RepShare from "../RepShare.json";
 import { Notify } from "notiflix";
 
-import "../styles/Main.css";
+// import "../styles/Main.css";
 import { ExclamationIcon } from "@heroicons/react/outline";
 
 export default function AddListing({
@@ -104,7 +104,7 @@ export default function AddListing({
         <div className="add_listing_container">
             {isEditMode ? (
                 <div className="warning_message" onClick={leaveEditMode}>
-                    <ExclamationIcon style={{ width: "1.5em" }} />
+                    <ExclamationIcon className="warning_icon" />
                     <p>
                         <b>You are now in editing mode. </b>
                         <br />
@@ -132,7 +132,7 @@ export default function AddListing({
                 </button>
             </div>
 
-            <div className="row">
+            <div className="row" style={{ flexWrap: "wrap" }}>
                 <input
                     value={name}
                     type="text"
@@ -150,8 +150,8 @@ export default function AddListing({
                 {isEditMode ? (
                     <input
                         value={price}
-                        type="number"
-                        className="rating_input"
+                        type="text"
+                        className="price_input"
                         placeholder="Price in Yuan"
                         onChange={(e) => setPrice(e.target.value)}
                     />

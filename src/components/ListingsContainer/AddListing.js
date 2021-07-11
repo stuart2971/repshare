@@ -87,7 +87,7 @@ export default function AddListing({
             setName(editMode.itemName);
             setItemLink(editMode.link);
             setRating(editMode.rating || "");
-            setItemImage(editMode.imageURL[0]);
+            setItemImage(editMode.imageURL ? editMode.imageURL[0] : "");
             setSelectedTag(editMode.tag);
             setPrice(editMode.price);
         }

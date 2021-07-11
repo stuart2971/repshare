@@ -18,7 +18,11 @@ export default function Navbar({ currency, setCurrency }) {
     const history = useHistory();
     const menuButton = (
         <MenuButton className="profile_dropdown">
-            {isAuthenticated ? <img src={user.picture} /> : <></>}
+            {isAuthenticated ? (
+                <img src={user.picture} />
+            ) : (
+                <button className="theme_button">Log in</button>
+            )}
         </MenuButton>
     );
 

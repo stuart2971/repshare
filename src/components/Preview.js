@@ -5,9 +5,11 @@ import { ExternalLinkIcon } from "@heroicons/react/solid";
 import { convertCurrency } from "../utils/currency";
 
 export default function Preview({ selectedListing, currency }) {
-    const price =
-        convertCurrency(currency, selectedListing.price) || "Cannot find price";
-    const imageURL = selectedListing.imageURL[0];
+    const price = convertCurrency(currency, selectedListing.price);
+    const imageURL = selectedListing.imageURL
+        ? selectedListing.imageURL[0]
+        : "";
+
     return (
         <div className="preview">
             <div className="preview_image_container">
@@ -27,7 +29,9 @@ export default function Preview({ selectedListing, currency }) {
             <div className="preview_data">
                 <div className="preview_header">
                     <span className="preview_title">
-                        {selectedListing.itemName}
+                        {selectedListing.itemName
+                            ? selectedListing.itemName
+                            : "No name"}
                     </span>
 
                     {selectedListing.rating ? (
@@ -48,7 +52,9 @@ export default function Preview({ selectedListing, currency }) {
                         )}
                     </div>
                 </div>
-                <p className="preview_price">{price}</p>
+                <p className="preview_price">
+                    {price.includes("NaN") ? "" : price}
+                </p>
                 <a
                     className="see_item"
                     onClick={() => window.open(selectedListing.link)}

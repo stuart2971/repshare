@@ -1,5 +1,6 @@
 .items_container {
     position: relative;
+    flex: 0 0 20em;
 }
 .link_icon {
     width: 30px;
@@ -19,8 +20,23 @@
     margin-bottom: 10px;
 }
 .add_listing_container .row:nth-child(2) {
-    /* background-color: rgb(255, 0, 0); */
     flex-wrap: wrap;
+}
+
+.warning_message {
+    max-width: 100%;
+    background-color: #ffeebb;
+    height: 30px;
+    margin-bottom: 10px;
+    border: 1px solid #f6cf53;
+    color: #bc974c;
+    display: flex;
+    align-items: center;
+    padding: 30px 0px 30px 10px;
+    cursor: pointer;
+}
+.warning_message p {
+    margin-left: 10px;
 }
 .url_input {
     flex-grow: 2;

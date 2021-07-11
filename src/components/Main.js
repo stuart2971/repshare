@@ -14,7 +14,6 @@ import { useHistory } from "react-router-dom";
 // https://dev.to/andyrewlee/cheat-sheet-for-updating-objects-and-arrays-in-react-state-48np
 export default function Main() {
     const { isAuthenticated, user } = useAuth0();
-    const history = useHistory();
 
     const [selectedHaul, setSelectedHaul] = useState({});
     const [selectedListing, setSelectedListing] = useState({});

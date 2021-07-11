@@ -10,6 +10,7 @@ export default function Listings({
     setSavedListings,
     savedListings,
     urlID,
+    setEditMode,
 }) {
     const ALL_LISTINGS = savedListings[selectedHaulID] || savedListings[urlID];
     const [listings, setListings] = useState();
@@ -17,7 +18,6 @@ export default function Listings({
         setListings(savedListings[selectedHaulID] || savedListings[urlID]);
     }, [savedListings, selectedHaulID]);
 
-    console.log("Listing renderd");
     return (
         <>
             <Filters
@@ -43,6 +43,7 @@ export default function Listings({
                                         selectedHaulID={selectedHaulID}
                                         savedListings={savedListings}
                                         urlID={urlID}
+                                        setEditMode={setEditMode}
                                     />
                                 </div>
                             );

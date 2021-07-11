@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 import { Confirm, Notify } from "notiflix";
 
 import { addHaul, deleteHaul, getHaulNames } from "../../utils/requests";
-
 import {
     Menu,
     MenuItem,
@@ -14,6 +13,7 @@ import {
     MenuHeader,
 } from "@szhsin/react-menu";
 import { ChevronDownIcon } from "@heroicons/react/solid";
+import { copyToClipboard } from "../../utils/currency";
 
 export default function HaulDropdown({ selectedHaul, setSelectedHaul }) {
     const { isAuthenticated, user, loginWithRedirect } = useAuth0();
@@ -76,6 +76,7 @@ export default function HaulDropdown({ selectedHaul, setSelectedHaul }) {
             loginWithRedirect();
         }
     }
+
     const menuButton = (
         <MenuButton
             className="profile_dropdown tab_selected "
@@ -105,11 +106,12 @@ export default function HaulDropdown({ selectedHaul, setSelectedHaul }) {
             {hauls
                 .slice(0)
                 .reverse()
-                .map((haul) => {
+                .map((haul, i) => {
                     return (
                         <MenuItem
                             value={haul._id}
                             onClick={(e) => changeTab(haul)}
+                            key={i}
                         >
                             {haul.name}
                         </MenuItem>
@@ -118,7 +120,13 @@ export default function HaulDropdown({ selectedHaul, setSelectedHaul }) {
 
             <MenuDivider />
             <MenuHeader>Haul Settings</MenuHeader>
-            <MenuItem>Copy Link</MenuItem>
+            <MenuItem
+                onClick={() =>
+                    copyToClipboard(window.location.href + selectedHaul._id)
+                }
+            >
+                Copy Link
+            </MenuItem>
             <MenuItem styles={{ color: "red" }} onClick={removeHaulFromArray}>
                 Delete Haul
             </MenuItem>

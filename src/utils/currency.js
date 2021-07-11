@@ -14,3 +14,27 @@ export function convertCurrency(currency, price) {
             return (p * 1.3225455).toFixed(2) + "kr";
     }
 }
+export function copyToClipboard(txt) {
+    let temp = document.createElement("textarea");
+    temp.value = txt;
+    document.body.appendChild(temp);
+    temp.select();
+    document.execCommand("copy");
+    document.body.removeChild(temp);
+}
+
+export function getHaulIDFromURL(history) {
+    let path = history.location.pathname;
+    if (path !== "/") {
+        console.log(path.substring(1, path.length));
+        return path.substring(1, path.length);
+    }
+    return null;
+}
+export function shortenItemName(itemName, length) {
+    if (itemName.length > length) {
+        return itemName.substring(0, length - 3) + "...";
+    } else {
+        return itemName;
+    }
+}

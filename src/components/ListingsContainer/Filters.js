@@ -33,12 +33,12 @@ const RATING_FILTER_OPTIONS = [
         value: 90,
     },
     {
-        name: "100%+",
+        name: "100%",
         value: 100,
     },
 ];
 
-export default function Filters({ setListings, ALL_LISTINGS, selectedHaulID }) {
+export default function Filters({ setListings, ALL_LISTINGS }) {
     const [tag, setTag] = useState("");
     const [rating, setRating] = useState("");
 

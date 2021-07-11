@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 
 import AddListing from "./AddListing";
 import Listings from "./Listings";
-
-import { getListings } from "../../utils/requests";
-import "../styles/Tabs.css";
 import HaulDropdown from "./HaulDropdown";
-import { useAuth0 } from "@auth0/auth0-react";
+import { getHaulIDFromURL } from "../../utils/currency";
+import { getListings } from "../../utils/requests";
+
+import "../styles/Tabs.css";
 
 export default function ListingsContainer({
     selectedHaul,
@@ -15,41 +15,29 @@ export default function ListingsContainer({
     currency,
     setSelectedHaul,
 }) {
-    const { isAuthenticated } = useAuth0();
     const history = useHistory();
-    let urlID = getHaulIDFromURL();
+    let urlID = getHaulIDFromURL(history);
 
     const [savedListings, setSavedListings] = useState({});
+    const [editMode, setEditMode] = useState({});
+
     let listings = savedListings[selectedHaul._id] || savedListings[urlID];
 
     useEffect(async () => {
+        let data;
         if (urlID && !savedListings[urlID]) {
-            const data = await getListings(urlID);
-            if (data) {
-                setSavedListings({
-                    ...savedListings,
-                    [urlID]: data.listings,
-                });
-            }
+            data = await getListings(urlID);
         } else {
             if (!listings) {
-                const data = await getListings(selectedHaul._id);
-                if (data)
-                    setSavedListings({
-                        ...savedListings,
-                        [selectedHaul._id]: data.listings,
-                    });
+                data = await getListings(selectedHaul._id);
             }
         }
-    });
-
-    function getHaulIDFromURL() {
-        let path = history.location.pathname;
-        if (path !== "/") {
-            return path.substring(1, path.length);
-        }
-        return null;
-    }
+        if (data)
+            setSavedListings({
+                ...savedListings,
+                [selectedHaul._id]: data.listings,
+            });
+    }, [selectedHaul, urlID]);
 
     function addToListings(l) {
         let oldSavedListings = listings || [];
@@ -59,11 +47,11 @@ export default function ListingsContainer({
             [selectedHaul._id]: oldSavedListings,
         });
     }
-    function updateListing(haulID, temporaryListingID, newListing) {
+    function updateListing(haulID, listingID, newListing) {
         let updatedListings = savedListings[haulID];
 
         for (let i = updatedListings.length - 1; i > 0; i--) {
-            if (updatedListings[i]._id === temporaryListingID) {
+            if (updatedListings[i]._id === listingID) {
                 updatedListings[i] = newListing;
                 break;
             }
@@ -81,11 +69,13 @@ export default function ListingsContainer({
                 selectedHaul={selectedHaul}
             />
 
-            {!urlID || !isAuthenticated ? (
+            {!urlID ? (
                 <AddListing
                     addToListings={addToListings}
                     id={selectedHaul._id}
                     updateListing={updateListing}
+                    editMode={editMode}
+                    setEditMode={setEditMode}
                 />
             ) : (
                 <></>
@@ -98,6 +88,7 @@ export default function ListingsContainer({
                 setSavedListings={setSavedListings}
                 savedListings={savedListings}
                 urlID={urlID}
+                setEditMode={setEditMode}
             />
         </div>
     );

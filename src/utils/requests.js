@@ -53,3 +53,20 @@ export async function changeCurrency(auth0ID, currency) {
     );
     return response.json();
 }
+
+export async function updateListing(listingID, data) {
+    let response = await fetch(
+        `${serverDomain}/haul/updateListing/${listingID}`,
+        {
+            method: "POST",
+            mode: "cors",
+            credentials: "same-origin",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-type": "application/json",
+            },
+        }
+    );
+
+    return response.json();
+}

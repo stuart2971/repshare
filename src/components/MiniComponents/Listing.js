@@ -1,6 +1,6 @@
-import { ControlledMenu, MenuItem } from "@szhsin/react-menu";
+import { ControlledMenu, MenuItem, SubMenu } from "@szhsin/react-menu";
 import { useState } from "react";
-import { convertCurrency } from "../../utils/currency";
+import { convertCurrency, shortenItemName } from "../../utils/currency";
 import Spinner from "./Loader";
 import Tag from "./Tag";
 
@@ -14,18 +14,11 @@ export default function Listing({
     setSavedListings,
     selectedHaulID,
     savedListings,
+    setEditMode,
 }) {
     const [isOpen, setOpen] = useState(false);
     const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
 
-    const MAX_LENGTH = 25;
-    function shortenItemName(itemName) {
-        if (itemName.length > MAX_LENGTH) {
-            return itemName.substring(0, MAX_LENGTH - 3) + "...";
-        } else {
-            return itemName;
-        }
-    }
     async function removeListing() {
         if (!listing._id.includes("TEMPID")) {
             const data = await deleteListing(selectedHaulID, listing._id);
@@ -47,15 +40,15 @@ export default function Listing({
     const isFetching = listing._id.includes("TEMPID");
     let price = isFetching ? (
         <Spinner />
-    ) : listing.price === undefined ? (
-        ""
-    ) : (
+    ) : listing.price ? (
         convertCurrency(currency, listing.price)
+    ) : (
+        "Cannot find price"
     );
+
     let itemName = isFetching
         ? "Fetching data..."
-        : shortenItemName(listing.itemName);
-
+        : shortenItemName(listing.itemName, 25);
     return (
         <div
             onClick={() => changeSelectedListing(listing)}
@@ -71,13 +64,23 @@ export default function Listing({
                 isOpen={isOpen}
                 onClose={() => setOpen(false)}
             >
-                <MenuItem onClick={() => console.log(listing)}>
-                    Quick View
-                </MenuItem>
+                <SubMenu
+                    label="Quick View"
+                    onClick={() => console.log(listing)}
+                >
+                    <MenuItem>
+                        <img
+                            src={listing.imageURL ? listing.imageURL[0] : ""}
+                            alt=""
+                            role="presentation"
+                            className="mini_preview"
+                        />
+                    </MenuItem>
+                </SubMenu>
                 <MenuItem onClick={() => window.open(listing.link, "_blank")}>
                     See Page
                 </MenuItem>
-                <MenuItem>Edit</MenuItem>
+                <MenuItem onClick={() => setEditMode(listing)}>Edit</MenuItem>
                 <MenuItem styles={{ color: "red" }} onClick={removeListing}>
                     Delete
                 </MenuItem>

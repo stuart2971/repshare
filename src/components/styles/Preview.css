@@ -40,3 +40,8 @@
 .preview .tag {
     margin-left: 10px;
 }
+
+/* Mini Preview */
+.mini_preview {
+    max-width: 80vw;
+}

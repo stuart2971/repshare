@@ -24,6 +24,7 @@ export default function Listings({
                 setListings={setListings}
                 ALL_LISTINGS={ALL_LISTINGS}
                 selectedHaulID={selectedHaulID}
+                currency={currency}
             />
             <div className="listings_container">
                 {listings && listings.length > 0 ? (

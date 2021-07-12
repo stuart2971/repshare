@@ -1,6 +1,10 @@
 import { ControlledMenu, MenuItem, SubMenu } from "@szhsin/react-menu";
 import { useState } from "react";
-import { convertCurrency, shortenItemName } from "../../utils/currency";
+import {
+    convertCurrency,
+    shortenItemName,
+    getRatingColor,
+} from "../../utils/currency";
 import Spinner from "./Loader";
 import Tag from "./Tag";
 
@@ -18,6 +22,7 @@ export default function Listing({
 }) {
     const [isOpen, setOpen] = useState(false);
     const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
+    const ratingColor = getRatingColor(listing.rating / 100);
 
     async function removeListing() {
         if (!listing._id.includes("TEMPID")) {
@@ -96,7 +101,12 @@ export default function Listing({
                 {listing.tag ? <Tag name={listing.tag} /> : <div></div>}
 
                 {listing.rating ? (
-                    <div className="tag rating">
+                    <div
+                        className="tag rating"
+                        style={{
+                            background: `rgb(${ratingColor[0]},${ratingColor[1]},${ratingColor[2]})`,
+                        }}
+                    >
                         <p className="tag_text">{listing.rating}%</p>
                     </div>
                 ) : (

@@ -2,10 +2,12 @@ import Tag from "./MiniComponents/Tag";
 
 import "./styles/Preview.css";
 import { ExternalLinkIcon } from "@heroicons/react/solid";
-import { convertCurrency } from "../utils/currency";
+import { convertCurrency, getRatingColor } from "../utils/currency";
 
 export default function Preview({ selectedListing, currency }) {
     const price = convertCurrency(currency, selectedListing.price);
+    const ratingColor = getRatingColor(selectedListing.rating / 100);
+
     const imageURL = selectedListing.imageURL
         ? selectedListing.imageURL[0]
         : "";
@@ -35,7 +37,12 @@ export default function Preview({ selectedListing, currency }) {
                     </span>
 
                     {selectedListing.rating ? (
-                        <div className="tag rating inline_block">
+                        <div
+                            className="tag rating inline_block"
+                            style={{
+                                background: `rgb(${ratingColor[0]},${ratingColor[1]},${ratingColor[2]})`,
+                            }}
+                        >
                             <p className="tag_text">
                                 {selectedListing.rating}%
                             </p>

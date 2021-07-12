@@ -38,3 +38,23 @@ export function shortenItemName(itemName, length) {
         return itemName;
     }
 }
+export function getRatingColor(rating) {
+    const color1 = [26, 183, 2];
+    const color2 = [238, 42, 2];
+    var w1 = rating;
+    var w2 = 1 - w1;
+    var rgb = [
+        Math.round(color1[0] * w1 + color2[0] * w2),
+        Math.round(color1[1] * w1 + color2[1] * w2),
+        Math.round(color1[2] * w1 + color2[2] * w2),
+    ];
+    return rgb;
+}
+export function calculatePriceFromListings(listings, currency) {
+    let total = 0;
+    for (let i = 0; i < listings.length; i++) {
+        if (!listings[i].price) continue;
+        total += parseFloat(listings[i].price);
+    }
+    return convertCurrency(currency, total);
+}

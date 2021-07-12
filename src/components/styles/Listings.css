@@ -19,7 +19,6 @@
     display: flex;
     margin-bottom: 10px;
 }
-
 .warning_message {
     max-width: 100%;
     background-color: #ffeebb;
@@ -56,9 +55,8 @@
 .image_input {
     width: 100%;
 }
-
 .tag_container {
-    overflow: scroll;
+    flex-wrap: wrap;
 }
 .tag {
     padding: 4px 6px 4px 6px;
@@ -67,7 +65,7 @@
     font-size: 0.8rem;
 }
 .add_listing_container .tag {
-    margin-right: 10px;
+    margin: 0px 10px 10px 0px;
     cursor: pointer;
 }
 .add_listing_container .tag_selected {
@@ -101,7 +99,7 @@
     cursor: pointer;
 }
 .rating {
-    background-color: #f99526;
+    /* background-color: #f99526; */
     opacity: 1;
     border: 0;
     padding: 5px 10px 5px 10px;
@@ -117,5 +115,8 @@
     }
     .rating_input {
         margin: 0px 0px 10px 0px;
+    }
+    .tag_container {
+        overflow: scroll;
     }
 }

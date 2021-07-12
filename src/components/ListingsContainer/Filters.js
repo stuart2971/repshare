@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import RepShare from "../RepShare.json";
 
 import { AdjustmentsIcon } from "@heroicons/react/outline";
+import { calculatePriceFromListings } from "../../utils/currency";
 
 const RATING_FILTER_OPTIONS = [
     {
@@ -38,9 +39,12 @@ const RATING_FILTER_OPTIONS = [
     },
 ];
 
-export default function Filters({ setListings, ALL_LISTINGS }) {
+export default function Filters({ setListings, ALL_LISTINGS, currency }) {
     const [tag, setTag] = useState("");
     const [rating, setRating] = useState("");
+    const totalPrice = ALL_LISTINGS
+        ? calculatePriceFromListings(ALL_LISTINGS, currency)
+        : 0;
 
     useEffect(() => {
         if (!ALL_LISTINGS) return;
@@ -63,56 +67,60 @@ export default function Filters({ setListings, ALL_LISTINGS }) {
         setTag("");
         setRating("");
     }
+    console.log(totalPrice);
     return (
-        <div className="filter_container">
-            <Menu
-                menuButton={
-                    <MenuButton className="filter_dropdown">
-                        Filter
-                        <AdjustmentsIcon style={{ width: "25px" }} />
-                    </MenuButton>
-                }
-                arrow="arrow"
-            >
-                <SubMenu label="Tag">
-                    <MenuRadioGroup value={tag}>
-                        {RepShare.tags.map((tag, i) => {
-                            return (
-                                <MenuItem
-                                    onClick={(e) => setTag(e.value)}
-                                    value={tag}
-                                >
-                                    {tag}
-                                </MenuItem>
-                            );
-                        })}
-                    </MenuRadioGroup>
-                </SubMenu>
-                <SubMenu label="Rating">
-                    <MenuRadioGroup value={rating}>
-                        {RATING_FILTER_OPTIONS.map((option, i) => {
-                            return (
-                                <MenuItem
-                                    onClick={(e) => setRating(e.value)}
-                                    value={option.value}
-                                >
-                                    {option.name}
-                                </MenuItem>
-                            );
-                        })}
-                    </MenuRadioGroup>
-                </SubMenu>
-                <MenuDivider />
-                <MenuItem onClick={clearFilters}>Clear Filters</MenuItem>
-            </Menu>
-            <div
-                className="faded50 current_filters"
-                style={{ display: "flex" }}
-            >
-                {tag || rating ? <p>Current Filters: </p> : <></>}
-                {tag ? <p>{tag}</p> : <></>}
-                {rating ? <p>{rating}%+</p> : <></>}
+        <div className="filter_container space_between">
+            <div>
+                <Menu
+                    menuButton={
+                        <MenuButton className="filter_dropdown">
+                            Filter
+                            <AdjustmentsIcon style={{ width: "25px" }} />
+                        </MenuButton>
+                    }
+                    arrow="arrow"
+                >
+                    <SubMenu label="Tag">
+                        <MenuRadioGroup value={tag}>
+                            {RepShare.tags.map((tag, i) => {
+                                return (
+                                    <MenuItem
+                                        onClick={(e) => setTag(e.value)}
+                                        value={tag}
+                                    >
+                                        {tag}
+                                    </MenuItem>
+                                );
+                            })}
+                        </MenuRadioGroup>
+                    </SubMenu>
+                    <SubMenu label="Rating">
+                        <MenuRadioGroup value={rating}>
+                            {RATING_FILTER_OPTIONS.map((option, i) => {
+                                return (
+                                    <MenuItem
+                                        onClick={(e) => setRating(e.value)}
+                                        value={option.value}
+                                    >
+                                        {option.name}
+                                    </MenuItem>
+                                );
+                            })}
+                        </MenuRadioGroup>
+                    </SubMenu>
+                    <MenuDivider />
+                    <MenuItem onClick={clearFilters}>Clear Filters</MenuItem>
+                </Menu>
+                <div
+                    className="faded50 current_filters"
+                    style={{ display: "flex" }}
+                >
+                    {tag || rating ? <p>Current Filters: </p> : <></>}
+                    {tag ? <p>{tag}</p> : <></>}
+                    {rating ? <p>{rating}%+</p> : <></>}
+                </div>
             </div>
+            <div className="faded50">Total {totalPrice}</div>
         </div>
     );
 }

@@ -84,6 +84,7 @@ export default function AddListing({
 
     useEffect(() => {
         if (isEditMode) {
+            window.scrollTo({ top: 0, behavior: "smooth" });
             setName(editMode.itemName);
             setItemLink(editMode.link);
             setRating(editMode.rating || "");

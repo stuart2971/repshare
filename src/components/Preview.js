@@ -2,7 +2,11 @@ import Tag from "./MiniComponents/Tag";
 
 import "./styles/Preview.css";
 import { ExternalLinkIcon } from "@heroicons/react/solid";
-import { convertCurrency, getRatingColor } from "../utils/currency";
+import {
+    convertCurrency,
+    getRatingColor,
+    shortenItemName,
+} from "../utils/currency";
 
 export default function Preview({ selectedListing, currency }) {
     const price = convertCurrency(currency, selectedListing.price);
@@ -32,7 +36,7 @@ export default function Preview({ selectedListing, currency }) {
                 <div className="preview_header">
                     <span className="preview_title">
                         {selectedListing.itemName
-                            ? selectedListing.itemName
+                            ? shortenItemName(selectedListing.itemName, 25)
                             : "No name"}
                     </span>
 

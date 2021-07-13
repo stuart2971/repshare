@@ -5,10 +5,18 @@
         "Hats",
         "Rings",
         "Shoes",
-        "Others",
         "Hoodie",
         "Sweatshirt",
         "Pants",
-        "Jackets"
+        "Jackets",
+        "Vest",
+        "Socks",
+        "Underwear",
+        "Braclet",
+        "Glasses",
+        "Neclace",
+        "Coat",
+        "Jersey",
+        "Other"
     ]
 }

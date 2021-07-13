@@ -38,17 +38,29 @@ export function shortenItemName(itemName, length) {
         return itemName;
     }
 }
-export function getRatingColor(rating) {
-    const color1 = [26, 183, 2];
-    const color2 = [238, 42, 2];
-    var w1 = rating;
-    var w2 = 1 - w1;
-    var rgb = [
-        Math.round(color1[0] * w1 + color2[0] * w2),
-        Math.round(color1[1] * w1 + color2[1] * w2),
-        Math.round(color1[2] * w1 + color2[2] * w2),
+
+var percentColors = [
+    { pct: 0.0, color: { r: 0xe9, g: 0x30, b: 0x3e } },
+    { pct: 0.5, color: { r: 0xfd, g: 0xc2, b: 0xe } },
+    { pct: 1.0, color: { r: 0x19, g: 0xb5, b: 0x1 } },
+];
+export function getRatingColor(pct) {
+    for (var i = 1; i < percentColors.length - 1; i++) {
+        if (pct < percentColors[i].pct) {
+            break;
+        }
+    }
+    var lower = percentColors[i - 1];
+    var upper = percentColors[i];
+    var range = upper.pct - lower.pct;
+    var rangePct = (pct - lower.pct) / range;
+    var pctLower = 1 - rangePct;
+    var pctUpper = rangePct;
+    return [
+        Math.floor(lower.color.r * pctLower + upper.color.r * pctUpper),
+        Math.floor(lower.color.g * pctLower + upper.color.g * pctUpper),
+        Math.floor(lower.color.b * pctLower + upper.color.b * pctUpper),
     ];
-    return rgb;
 }
 export function calculatePriceFromListings(listings, currency) {
     let total = 0;

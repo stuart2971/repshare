@@ -26,7 +26,6 @@ export function copyToClipboard(txt) {
 export function getHaulIDFromURL(history) {
     let path = history.location.pathname;
     if (path !== "/") {
-        console.log(path.substring(1, path.length));
         return path.substring(1, path.length);
     }
     return null;

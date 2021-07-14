@@ -47,7 +47,6 @@ export default function AddListing({
                 Notify.success("Changed listing successfully");
                 updateListing(id, editMode._id, newListing);
             }
-            console.log(data);
         } else {
             if (!itemLink) {
                 Notify.failure("You have to enter a link");

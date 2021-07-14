@@ -90,6 +90,13 @@
     font-size: 1em;
     cursor: pointer;
 }
+.listings_container {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -o-user-select: none;
+}
 .listings_container .space_between {
     margin-bottom: 5px;
 }

@@ -26,7 +26,12 @@ export default function Listings({
                 selectedHaulID={selectedHaulID}
                 currency={currency}
             />
-            <div className="listings_container">
+            <div
+                className="listings_container"
+                unselectable="on"
+                onselectstart="return false;"
+                onmousedown="return false;"
+            >
                 {listings && listings.length > 0 ? (
                     listings
                         .slice(0)

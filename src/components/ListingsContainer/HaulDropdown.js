@@ -64,7 +64,6 @@ export default function HaulDropdown({ selectedHaul, setSelectedHaul }) {
                     selectedHaul._id
                 );
                 Notify.success("Haul Deleted");
-                console.log(hauls);
                 if (hauls.length === 1) setSelectedHaul({});
                 else setSelectedHaul(hauls[hauls.length - 2]);
             },

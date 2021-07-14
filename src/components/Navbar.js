@@ -30,7 +30,6 @@ export default function Navbar({ currency, setCurrency }) {
         if (isAuthenticated) logout();
         else {
             loginWithRedirect();
-            console.log(user);
         }
     }
     async function changeCurrencyTo(curr) {

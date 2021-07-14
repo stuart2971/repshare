@@ -40,9 +40,15 @@ export default function Preview({ selectedListing, currency }) {
                             : "No name"}
                     </span>
                 </div>
-                <p className="faded50 preview_comment">
-                    Comment: {selectedListing.comment}
-                </p>
+
+                {selectedListing.comment ? (
+                    <p className="faded50 preview_comment">
+                        Comment: {selectedListing.comment}
+                    </p>
+                ) : (
+                    <></>
+                )}
+
                 <a
                     className="see_item"
                     onClick={() => window.open(selectedListing.link)}

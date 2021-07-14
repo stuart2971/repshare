@@ -49,8 +49,7 @@ export default function ListingsContainer({
     }
     function updateListing(haulID, listingID, newListing) {
         let updatedListings = savedListings[haulID];
-
-        for (let i = updatedListings.length - 1; i > 0; i--) {
+        for (let i = updatedListings.length - 1; i >= 0; i--) {
             if (updatedListings[i]._id === listingID) {
                 updatedListings[i] = newListing;
                 break;

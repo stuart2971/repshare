@@ -42,9 +42,15 @@ const RATING_FILTER_OPTIONS = [
 export default function Filters({ setListings, ALL_LISTINGS, currency }) {
     const [tag, setTag] = useState("");
     const [rating, setRating] = useState("");
-    const totalPrice = ALL_LISTINGS
-        ? calculatePriceFromListings(ALL_LISTINGS, currency)
-        : 0;
+    const [totalPrice, setTotalPrice] = useState();
+
+    useEffect(() => {
+        setTotalPrice(
+            ALL_LISTINGS
+                ? calculatePriceFromListings(ALL_LISTINGS, currency)
+                : 0
+        );
+    }, [ALL_LISTINGS]);
 
     useEffect(() => {
         if (!ALL_LISTINGS) return;
@@ -58,7 +64,7 @@ export default function Filters({ setListings, ALL_LISTINGS, currency }) {
                 continue;
             }
         }
-
+        setTotalPrice(calculatePriceFromListings(newListings, currency));
         setListings(newListings);
     }, [tag, rating]);
 
@@ -67,7 +73,6 @@ export default function Filters({ setListings, ALL_LISTINGS, currency }) {
         setTag("");
         setRating("");
     }
-    console.log(totalPrice);
     return (
         <div className="filter_container space_between">
             <div>

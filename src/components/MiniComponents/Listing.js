@@ -74,12 +74,17 @@ export default function Listing({
                     onClick={() => console.log(listing)}
                 >
                     <MenuItem>
-                        <img
-                            src={listing.imageURL ? listing.imageURL[0] : ""}
-                            alt=""
-                            role="presentation"
-                            className="mini_preview"
-                        />
+                        <div className="mini_preview">
+                            <img
+                                src={
+                                    listing.imageURL ? listing.imageURL[0] : ""
+                                }
+                                alt=""
+                                role="presentation"
+                                className="mini_preview_image"
+                            />
+                            <h1>{shortenItemName(listing.itemName, 50)}</h1>
+                        </div>
                     </MenuItem>
                 </SubMenu>
                 <MenuItem onClick={() => window.open(listing.link, "_blank")}>

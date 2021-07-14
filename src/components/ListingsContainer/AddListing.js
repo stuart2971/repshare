@@ -23,6 +23,7 @@ export default function AddListing({
     const [name, setName] = useState("");
     const [rating, setRating] = useState("");
     const [itemImage, setItemImage] = useState("");
+    const [comment, setComment] = useState("");
     const [selectedTag, setSelectedTag] = useState("");
     const [price, setPrice] = useState("");
 
@@ -37,6 +38,7 @@ export default function AddListing({
                 imageURL: [itemImage],
                 tag: selectedTag,
                 price,
+                comment,
                 _id: editMode._id,
             };
             const data = await editListing(editMode._id, newListing);
@@ -61,6 +63,7 @@ export default function AddListing({
                 rating: parseInt(rating),
                 imageURL: itemImage,
                 tag: selectedTag,
+                comment,
             };
             const temporaryListingID = Math.random() * 100000 + "TEMPID";
             addToListings({
@@ -71,10 +74,12 @@ export default function AddListing({
                 price: "",
                 tag: selectedTag,
                 _id: temporaryListingID,
+                comment,
             });
             setItemLink("");
             setName("");
             setRating("");
+            setComment("");
             setItemImage("");
             const newListing = await createListing(id, listing);
 
@@ -91,6 +96,7 @@ export default function AddListing({
             setItemImage(editMode.imageURL ? editMode.imageURL[0] : "");
             setSelectedTag(editMode.tag);
             setPrice(editMode.price);
+            setComment(editMode.comment);
         }
     }, [editMode]);
     function leaveEditMode() {
@@ -100,6 +106,7 @@ export default function AddListing({
         setItemImage("");
         setSelectedTag("");
         setEditMode({});
+        setComment("");
     }
     return (
         <div className="add_listing_container">
@@ -133,6 +140,7 @@ export default function AddListing({
                 </button>
             </div>
 
+            <div class="separator faded50">Optional</div>
             <div className="row" style={{ flexWrap: "wrap" }}>
                 <input
                     value={name}
@@ -166,6 +174,15 @@ export default function AddListing({
                     className="image_input"
                     placeholder="Imgur link / image URL"
                     onChange={(e) => setItemImage(e.target.value)}
+                />
+            </div>
+            <div className="row">
+                <input
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    className="image_input"
+                    placeholder="Comment on the item"
+                    maxLength="100"
                 />
             </div>
             <div className="row tag_container">

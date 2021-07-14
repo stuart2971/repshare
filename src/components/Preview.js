@@ -36,35 +36,12 @@ export default function Preview({ selectedListing, currency }) {
                 <div className="preview_header">
                     <span className="preview_title">
                         {selectedListing.itemName
-                            ? shortenItemName(selectedListing.itemName, 25)
+                            ? shortenItemName(selectedListing.itemName, 200)
                             : "No name"}
                     </span>
-
-                    {selectedListing.rating ? (
-                        <div
-                            className="tag rating inline_block"
-                            style={{
-                                background: `rgb(${ratingColor[0]},${ratingColor[1]},${ratingColor[2]})`,
-                            }}
-                        >
-                            <p className="tag_text">
-                                {selectedListing.rating}%
-                            </p>
-                        </div>
-                    ) : (
-                        <></>
-                    )}
-
-                    <div className="inline_block">
-                        {selectedListing.tag ? (
-                            <Tag name={selectedListing.tag} />
-                        ) : (
-                            <></>
-                        )}
-                    </div>
                 </div>
-                <p className="preview_price">
-                    {price.includes("NaN") ? "" : price}
+                <p className="faded50 preview_comment">
+                    Comment: {selectedListing.comment}
                 </p>
                 <a
                     className="see_item"

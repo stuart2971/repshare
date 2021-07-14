@@ -30,18 +30,27 @@
     font-size: 1.4rem;
     margin-bottom: 1em;
 }
-.preview_price {
-    font-size: 1.2em;
-    margin-bottom: 0.7em;
+.preview_comment {
+    margin: 10px 0px 10px 0px;
 }
 .see_item {
     color: black;
 }
-.preview .tag {
-    margin-left: 10px;
+.mini_preview {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 80vw;
 }
 
 /* Mini Preview */
-.mini_preview {
-    max-width: 80vw;
+.mini_preview_image {
+    max-width: 20vw;
+}
+
+/* Different sizes */
+@media only screen and (max-width: 992px) {
+    .mini_preview_image {
+        max-width: 80vw;
+    }
 }

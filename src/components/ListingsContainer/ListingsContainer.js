@@ -20,13 +20,16 @@ export default function ListingsContainer({
 
     const [savedListings, setSavedListings] = useState({});
     const [editMode, setEditMode] = useState({});
+    const [haulName, setHaulName] = useState("");
 
     let listings = savedListings[selectedHaul._id] || savedListings[urlID];
 
     useEffect(async () => {
         let data;
+
         if (urlID && !savedListings[urlID]) {
             data = await getListings(urlID);
+            setHaulName(data.name);
         } else {
             if (!listings) {
                 data = await getListings(selectedHaul._id);
@@ -35,7 +38,7 @@ export default function ListingsContainer({
         if (data)
             setSavedListings({
                 ...savedListings,
-                [selectedHaul._id]: data.listings,
+                [selectedHaul._id || urlID]: data.listings,
             });
     }, [selectedHaul, urlID]);
 
@@ -60,13 +63,17 @@ export default function ListingsContainer({
             [haulID]: updatedListings,
         });
     }
-
+    console.log(savedListings);
     return (
         <div>
-            <HaulDropdown
-                setSelectedHaul={setSelectedHaul}
-                selectedHaul={selectedHaul}
-            />
+            {!urlID ? (
+                <HaulDropdown
+                    setSelectedHaul={setSelectedHaul}
+                    selectedHaul={selectedHaul}
+                />
+            ) : (
+                <h1>{haulName}</h1>
+            )}
 
             {!urlID ? (
                 <AddListing

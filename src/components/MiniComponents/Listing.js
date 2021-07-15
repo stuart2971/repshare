@@ -4,12 +4,15 @@ import {
     convertCurrency,
     shortenItemName,
     getRatingColor,
+    getHaulIDFromURL,
 } from "../../utils/currency";
 import Spinner from "./Loader";
 import Tag from "./Tag";
 
 import { deleteListing } from "../../utils/requests";
 import { Notify } from "notiflix";
+import { useHistory } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function Listing({
     listing,
@@ -23,6 +26,7 @@ export default function Listing({
     const [isOpen, setOpen] = useState(false);
     const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
     const ratingColor = getRatingColor(listing.rating / 100);
+    const urlID = getHaulIDFromURL(useHistory());
 
     async function removeListing() {
         if (!listing._id.includes("TEMPID")) {
@@ -46,7 +50,7 @@ export default function Listing({
     let price = isFetching ? (
         <Spinner />
     ) : listing.price ? (
-        convertCurrency(currency, listing.price)
+        convertCurrency(currency || "CNY", listing.price)
     ) : (
         "Cannot find price"
     );
@@ -90,10 +94,20 @@ export default function Listing({
                 <MenuItem onClick={() => window.open(listing.link, "_blank")}>
                     See Page
                 </MenuItem>
-                <MenuItem onClick={() => setEditMode(listing)}>Edit</MenuItem>
-                <MenuItem styles={{ color: "red" }} onClick={removeListing}>
-                    Delete
-                </MenuItem>
+                {!urlID ? (
+                    <MenuItem onClick={() => setEditMode(listing)}>
+                        Edit
+                    </MenuItem>
+                ) : (
+                    <div></div>
+                )}
+                {!urlID ? (
+                    <MenuItem styles={{ color: "red" }} onClick={removeListing}>
+                        Delete
+                    </MenuItem>
+                ) : (
+                    <div></div>
+                )}
             </ControlledMenu>
             <div className="space_between">
                 <p className="listing_text">

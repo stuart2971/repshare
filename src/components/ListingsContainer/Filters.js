@@ -43,11 +43,10 @@ export default function Filters({ setListings, ALL_LISTINGS, currency }) {
     const [tag, setTag] = useState("");
     const [rating, setRating] = useState("");
     const [totalPrice, setTotalPrice] = useState();
-
     useEffect(() => {
         setTotalPrice(
             ALL_LISTINGS
-                ? calculatePriceFromListings(ALL_LISTINGS, currency)
+                ? calculatePriceFromListings(ALL_LISTINGS, currency || "CNY")
                 : 0
         );
     }, [ALL_LISTINGS]);
@@ -64,7 +63,9 @@ export default function Filters({ setListings, ALL_LISTINGS, currency }) {
                 continue;
             }
         }
-        setTotalPrice(calculatePriceFromListings(newListings, currency));
+        setTotalPrice(
+            calculatePriceFromListings(newListings, currency || "CNY")
+        );
         setListings(newListings);
     }, [tag, rating]);
 

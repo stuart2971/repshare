@@ -1,4 +1,4 @@
-export function convertCurrency(currency, price) {
+export function convertCurrency(currency = "CNY", price) {
     if (currency === "CNY") return "¥" + price;
     const p = parseFloat(price);
     switch (currency) {

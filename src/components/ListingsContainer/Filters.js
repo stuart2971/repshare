@@ -49,7 +49,7 @@ export default function Filters({ setListings, ALL_LISTINGS, currency }) {
                 ? calculatePriceFromListings(ALL_LISTINGS, currency || "CNY")
                 : 0
         );
-    }, [ALL_LISTINGS]);
+    }, [ALL_LISTINGS, currency]);
 
     useEffect(() => {
         if (!ALL_LISTINGS) return;

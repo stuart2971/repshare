@@ -7,7 +7,7 @@ import HaulDropdown from "./HaulDropdown";
 import { getHaulIDFromURL } from "../../utils/currency";
 import { getListings } from "../../utils/requests";
 
-import "../styles/Tabs.css";
+import "../styles/Navbar.css";
 
 export default function ListingsContainer({
     selectedHaul,
@@ -24,6 +24,9 @@ export default function ListingsContainer({
 
     let listings = savedListings[selectedHaul._id] || savedListings[urlID];
 
+    useEffect(() => {
+        if (listings) changeSelectedListing(listings[listings.length - 1]);
+    }, [listings]);
     useEffect(async () => {
         let data;
 

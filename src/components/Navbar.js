@@ -8,7 +8,7 @@ import {
 } from "@szhsin/react-menu";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import "./styles/Tabs.css";
+import "./styles/Navbar.css";
 import "@szhsin/react-menu/dist/index.css";
 import { changeCurrency } from "../utils/requests";
 import { useHistory } from "react-router-dom";
@@ -38,7 +38,7 @@ export default function Navbar({ currency, setCurrency }) {
     }
     return (
         <div className="navbar space_between">
-            <div>
+            <div className="logo_container">
                 <h1 className="logo" onClick={() => history.replace("/")}>
                     RepShare
                 </h1>

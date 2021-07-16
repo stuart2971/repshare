@@ -12,7 +12,6 @@ import Tag from "./Tag";
 import { deleteListing } from "../../utils/requests";
 import { Notify } from "notiflix";
 import { useHistory } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
 
 export default function Listing({
     listing,

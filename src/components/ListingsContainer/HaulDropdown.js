@@ -14,6 +14,7 @@ import {
 } from "@szhsin/react-menu";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { copyToClipboard } from "../../utils/currency";
+import Spinner from "../MiniComponents/Loader";
 
 export default function HaulDropdown({ selectedHaul, setSelectedHaul }) {
     const { isAuthenticated, user, loginWithRedirect } = useAuth0();
@@ -21,9 +22,11 @@ export default function HaulDropdown({ selectedHaul, setSelectedHaul }) {
 
     const [hauls, setHauls] = useState([]);
     const [newHaulName, setNewHaulName] = useState("");
+    const [fetching, setFetching] = useState(false);
 
     useEffect(async () => {
         if (!isAuthenticated) return;
+        setFetching(true);
         const data = await getHaulNames(user.sub);
 
         if (!data) return;
@@ -34,6 +37,7 @@ export default function HaulDropdown({ selectedHaul, setSelectedHaul }) {
                 changeTab(recentHaul);
             }
         }
+        setFetching(false);
         // useEffect only renders on mount and NOT when component rerenders.  (Only watches isAuthenticated for changes)
     }, [isAuthenticated]);
     function changeTab(haul) {
@@ -44,11 +48,18 @@ export default function HaulDropdown({ selectedHaul, setSelectedHaul }) {
         let haulName = e.target.value;
         if (e.keyCode === 13 && haulName) {
             if (!haulName || !isAuthenticated) return;
-            const data = await addHaul(user.sub, haulName);
-            setHauls([...hauls, data]);
-            changeTab(data);
-            Notify.success("Haul Created");
-            setNewHaulName("");
+            try {
+                const data = await addHaul(user.sub, haulName);
+                setHauls([...hauls, data]);
+                changeTab(data);
+                Notify.success("Haul Created");
+                setNewHaulName("");
+            } catch (err) {
+                if (err)
+                    Notify.failure(
+                        "Cannot create haul at this time.  Try again later"
+                    );
+            }
         }
     }
     function removeHaulFromArray() {
@@ -102,20 +113,24 @@ export default function HaulDropdown({ selectedHaul, setSelectedHaul }) {
                 )}
             </FocusableItem>
             <MenuHeader>Your Hauls ({hauls.length})</MenuHeader>
-            {hauls
-                .slice(0)
-                .reverse()
-                .map((haul, i) => {
-                    return (
-                        <MenuItem
-                            value={haul._id}
-                            onClick={(e) => changeTab(haul)}
-                            key={i}
-                        >
-                            {haul.name}
-                        </MenuItem>
-                    );
-                })}
+            {fetching ? (
+                <MenuItem>Fetching Hauls...</MenuItem>
+            ) : (
+                hauls
+                    .slice(0)
+                    .reverse()
+                    .map((haul, i) => {
+                        return (
+                            <MenuItem
+                                value={haul._id}
+                                onClick={(e) => changeTab(haul)}
+                                key={i}
+                            >
+                                {haul.name}
+                            </MenuItem>
+                        );
+                    })
+            )}
 
             <MenuDivider />
             <MenuHeader>Haul Settings</MenuHeader>

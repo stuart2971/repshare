@@ -8,6 +8,7 @@ import { getHaulIDFromURL } from "../../utils/currency";
 import { getListings } from "../../utils/requests";
 
 import "../styles/Navbar.css";
+import Spinner from "../MiniComponents/Loader";
 
 export default function ListingsContainer({
     selectedHaul,
@@ -21,6 +22,7 @@ export default function ListingsContainer({
     const [savedListings, setSavedListings] = useState({});
     const [editMode, setEditMode] = useState({});
     const [haulName, setHaulName] = useState("");
+    const [fetchingListings, setFetchingListings] = useState(false);
 
     let listings = savedListings[selectedHaul._id] || savedListings[urlID];
 
@@ -29,20 +31,23 @@ export default function ListingsContainer({
     }, [listings]);
     useEffect(async () => {
         let data;
-
+        setFetchingListings(true);
         if (urlID && !savedListings[urlID]) {
             data = await getListings(urlID);
+
             setHaulName(data.name);
         } else {
             if (!listings) {
                 data = await getListings(selectedHaul._id);
             }
         }
+
         if (data)
             setSavedListings({
                 ...savedListings,
                 [selectedHaul._id || urlID]: data.listings,
             });
+        setFetchingListings(false);
     }, [selectedHaul, urlID]);
 
     function addToListings(l) {
@@ -66,7 +71,7 @@ export default function ListingsContainer({
             [haulID]: updatedListings,
         });
     }
-    console.log(savedListings);
+    console.log(fetchingListings);
     return (
         <div>
             {!urlID ? (
@@ -89,16 +94,22 @@ export default function ListingsContainer({
             ) : (
                 <></>
             )}
-
-            <Listings
-                selectedHaulID={selectedHaul._id}
-                currency={currency}
-                changeSelectedListing={changeSelectedListing}
-                setSavedListings={setSavedListings}
-                savedListings={savedListings}
-                urlID={urlID}
-                setEditMode={setEditMode}
-            />
+            {fetchingListings ? (
+                <div>
+                    Fetching Listings
+                    <Spinner />
+                </div>
+            ) : (
+                <Listings
+                    selectedHaulID={selectedHaul._id}
+                    currency={currency}
+                    changeSelectedListing={changeSelectedListing}
+                    setSavedListings={setSavedListings}
+                    savedListings={savedListings}
+                    urlID={urlID}
+                    setEditMode={setEditMode}
+                />
+            )}
         </div>
     );
 }

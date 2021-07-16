@@ -49,7 +49,7 @@ export default function Main() {
                         />
                     </div>
                     <div className="flex_item preview_container">
-                        {Object.keys(selectedListing).length !== 0 ? (
+                        {Object.keys(selectedListing || {}).length !== 0 ? (
                             <Preview
                                 currency={currency}
                                 selectedListing={selectedListing}

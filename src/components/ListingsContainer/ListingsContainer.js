@@ -9,6 +9,7 @@ import { getListings } from "../../utils/requests";
 
 import "../styles/Navbar.css";
 import Spinner from "../MiniComponents/Loader";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function ListingsContainer({
     selectedHaul,
@@ -17,6 +18,7 @@ export default function ListingsContainer({
     setSelectedHaul,
 }) {
     const history = useHistory();
+    const { isAuthenticated } = useAuth0();
     let urlID = getHaulIDFromURL(history);
 
     const [savedListings, setSavedListings] = useState({});
@@ -71,7 +73,6 @@ export default function ListingsContainer({
             [haulID]: updatedListings,
         });
     }
-    console.log(fetchingListings);
     return (
         <div>
             {!urlID ? (
@@ -94,7 +95,7 @@ export default function ListingsContainer({
             ) : (
                 <></>
             )}
-            {fetchingListings ? (
+            {fetchingListings && isAuthenticated ? (
                 <div>
                     Fetching Listings
                     <Spinner />

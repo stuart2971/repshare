@@ -57,6 +57,9 @@
 
 /* Different sizes */
 @media only screen and (max-width: 992px) {
+    .mini_preview {
+        width: 80vw;
+    }
     .mini_preview_image {
         max-width: 80vw;
     }

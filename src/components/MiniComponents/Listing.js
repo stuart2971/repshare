@@ -87,7 +87,9 @@ export default function Listing({
                                 className="mini_preview_image"
                             />
                             <h1>{shortenItemName(listing.itemName, 50)}</h1>
-                            <p>{listing.comment}</p>
+                            <p className="faded50">
+                                Comment: {listing.comment}
+                            </p>
                         </div>
                     </MenuItem>
                 </SubMenu>

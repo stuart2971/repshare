@@ -14,7 +14,6 @@ import {
 } from "@szhsin/react-menu";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { copyToClipboard } from "../../utils/currency";
-import Spinner from "../MiniComponents/Loader";
 
 export default function HaulDropdown({ selectedHaul, setSelectedHaul }) {
     const { isAuthenticated, user, loginWithRedirect } = useAuth0();

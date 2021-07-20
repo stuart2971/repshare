@@ -34,14 +34,18 @@ export default function ListingsContainer({
     useEffect(async () => {
         let data;
         setFetchingListings(true);
-        if (urlID && !savedListings[urlID]) {
-            data = await getListings(urlID);
+        try {
+            if (urlID && !savedListings[urlID]) {
+                data = await getListings(urlID);
 
-            setHaulName(data.name);
-        } else {
-            if (!listings) {
-                data = await getListings(selectedHaul._id);
+                setHaulName(data.name);
+            } else {
+                if (!listings) {
+                    data = await getListings(selectedHaul._id);
+                }
             }
+        } catch (err) {
+            console.log("LISTINGS CONTAINER: ", err);
         }
 
         if (data)

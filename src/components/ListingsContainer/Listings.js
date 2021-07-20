@@ -23,8 +23,8 @@ export default function Listings({
             <Filters
                 setListings={setListings}
                 ALL_LISTINGS={ALL_LISTINGS}
-                selectedHaulID={selectedHaulID}
                 currency={currency}
+                savedListings={savedListings}
             />
             <div
                 className="listings_container"

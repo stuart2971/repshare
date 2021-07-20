@@ -39,17 +39,25 @@ const RATING_FILTER_OPTIONS = [
     },
 ];
 
-export default function Filters({ setListings, ALL_LISTINGS, currency }) {
+export default function Filters({
+    setListings,
+    ALL_LISTINGS,
+    currency,
+    savedListings,
+}) {
     const [tag, setTag] = useState("");
     const [rating, setRating] = useState("");
     const [totalPrice, setTotalPrice] = useState();
+    const [numItems, setNumItems] = useState(0);
     useEffect(() => {
         setTotalPrice(
             ALL_LISTINGS
                 ? calculatePriceFromListings(ALL_LISTINGS, currency || "CNY")
                 : 0
         );
-    }, [ALL_LISTINGS, currency]);
+        if (ALL_LISTINGS) setNumItems(ALL_LISTINGS.length);
+        clearFilters();
+    }, [ALL_LISTINGS, currency, savedListings]);
 
     useEffect(() => {
         if (!ALL_LISTINGS) return;
@@ -66,6 +74,7 @@ export default function Filters({ setListings, ALL_LISTINGS, currency }) {
         setTotalPrice(
             calculatePriceFromListings(newListings, currency || "CNY")
         );
+        setNumItems(newListings.length);
         setListings(newListings);
     }, [tag, rating]);
 
@@ -86,7 +95,7 @@ export default function Filters({ setListings, ALL_LISTINGS, currency }) {
                     }
                     arrow="arrow"
                 >
-                    <SubMenu label="Tag">
+                    <SubMenu label={tag ? `Tag: ${tag}` : "Tag"}>
                         <MenuRadioGroup value={tag}>
                             {RepShare.tags.map((tag, i) => {
                                 return (
@@ -100,7 +109,7 @@ export default function Filters({ setListings, ALL_LISTINGS, currency }) {
                             })}
                         </MenuRadioGroup>
                     </SubMenu>
-                    <SubMenu label="Rating">
+                    <SubMenu label={rating ? `Rating: ${rating}%+` : "Rating"}>
                         <MenuRadioGroup value={rating}>
                             {RATING_FILTER_OPTIONS.map((option, i) => {
                                 return (
@@ -117,16 +126,11 @@ export default function Filters({ setListings, ALL_LISTINGS, currency }) {
                     <MenuDivider />
                     <MenuItem onClick={clearFilters}>Clear Filters</MenuItem>
                 </Menu>
-                <div
-                    className="faded50 current_filters"
-                    style={{ display: "flex" }}
-                >
-                    {tag || rating ? <p>Current Filters: </p> : <></>}
-                    {tag ? <p>{tag}</p> : <></>}
-                    {rating ? <p>{rating}%+</p> : <></>}
-                </div>
             </div>
-            <div className="faded50">Total {totalPrice}</div>
+            <div className="faded50">
+                <span>{numItems} items. </span>
+                <span>Total {totalPrice}</span>
+            </div>
         </div>
     );
 }

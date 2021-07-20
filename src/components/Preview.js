@@ -1,17 +1,11 @@
-import Tag from "./MiniComponents/Tag";
-
 import "./styles/Preview.css";
-import { ExternalLinkIcon } from "@heroicons/react/solid";
 import {
     convertCurrency,
     getRatingColor,
     shortenItemName,
 } from "../utils/currency";
 
-export default function Preview({ selectedListing, currency }) {
-    const price = convertCurrency(currency, selectedListing.price);
-    const ratingColor = getRatingColor(selectedListing.rating / 100);
-
+export default function Preview({ selectedListing }) {
     const imageURL = selectedListing.imageURL
         ? selectedListing.imageURL[0]
         : "";
@@ -34,11 +28,17 @@ export default function Preview({ selectedListing, currency }) {
 
             <div className="preview_data">
                 <div className="preview_header">
-                    <span className="preview_title">
-                        {selectedListing.itemName
-                            ? shortenItemName(selectedListing.itemName, 200)
-                            : "No name"}
-                    </span>
+                    <a
+                        target="_blank"
+                        style={{ color: "black" }}
+                        href={selectedListing.link}
+                    >
+                        <span className="preview_title">
+                            {selectedListing.itemName
+                                ? shortenItemName(selectedListing.itemName, 200)
+                                : "No name"}
+                        </span>
+                    </a>
                 </div>
 
                 {selectedListing.comment ? (
@@ -48,13 +48,6 @@ export default function Preview({ selectedListing, currency }) {
                 ) : (
                     <></>
                 )}
-
-                <a
-                    className="see_item"
-                    onClick={() => window.open(selectedListing.link)}
-                >
-                    <ExternalLinkIcon style={{ width: "30px" }} />
-                </a>
             </div>
         </div>
     );

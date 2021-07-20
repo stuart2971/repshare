@@ -9,7 +9,6 @@ import {
 import RepShare from "../RepShare.json";
 import { Notify } from "notiflix";
 
-// import "../styles/Main.css";
 import { ExclamationIcon } from "@heroicons/react/outline";
 
 export default function AddListing({
